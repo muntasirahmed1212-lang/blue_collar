@@ -1,0 +1,46 @@
+/* css/how-it-works.css */
+
+.hero-bg {
+  background: linear-gradient(135deg, var(--surface-primary) 0%, var(--surface-secondary) 100%);
+  padding: var(--spacing-12) 0;
+}
+
+.step-card {
+  padding: var(--spacing-8);
+  text-align: center;
+  border-radius: var(--radius-2xl);
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-default);
+}
+
+.step-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--brand-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--spacing-6);
+}
+
+.step-icon-wrapper .icon {
+  width: 40px;
+  height: 40px;
+}
+
+.step-number {
+  position: absolute;
+  top: var(--spacing-4);
+  left: var(--spacing-4);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--brand-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}

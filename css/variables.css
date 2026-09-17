@@ -1,0 +1,143 @@
+:root, [data-theme="dark"] {
+  /* 1. Tell browser we support both, default to dark */
+  color-scheme: dark;
+
+  /* Surfaces (Backgrounds) */
+  --surface-primary: #0a1628;
+  --surface-secondary: #1a2d4a;
+  --surface-elevated: #243b5e;
+  --surface-glass: rgba(26, 45, 74, 0.6);
+  
+  /* Accents */
+  --accent-blue: #3b82f6;
+  --accent-blue-hover: #2563eb;
+  --accent-blue-transparent: rgba(59, 130, 246, 0.15);
+  
+  --accent-amber: #f59e0b;
+  --accent-emerald: #10b981;
+  --accent-emerald-transparent: rgba(16, 185, 129, 0.15);
+  
+  /* Brand aliases (point to accent-blue) */
+  --brand-primary: var(--accent-blue);
+  --brand-primary-transparent: var(--accent-blue-transparent);
+  
+  /* Text */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+  --text-muted: #718096;
+  --text-inverse: #0f172a;
+  
+  /* Borders */
+  --border-default: #334155;
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --border-default-light: rgba(255, 255, 255, 0.06);
+
+  /* Shadows (HSL format to allow opacity tweaks) */
+  --shadow-color: 220 40% 2%;
+  
+  /* Gradients */
+  --gradient-glass: linear-gradient(145deg, rgba(26, 45, 74, 0.4) 0%, rgba(10, 22, 40, 0.8) 100%);
+  --gradient-cta: linear-gradient(135deg, rgba(26, 45, 74, 0.8) 0%, rgba(59, 130, 246, 0.2) 100%);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Surfaces (Backgrounds) */
+  --surface-primary: #f8fafc;
+  --surface-secondary: #ffffff;
+  --surface-elevated: #f1f5f9;
+  --surface-glass: rgba(255, 255, 255, 0.7);
+  
+  /* Accents (same as dark for brand consistency) */
+  --accent-blue: #3b82f6;
+  --accent-blue-hover: #2563eb;
+  --accent-blue-transparent: rgba(59, 130, 246, 0.15);
+  
+  --accent-amber: #d97706; /* Slightly darker for light theme contrast */
+  --accent-emerald: #059669; /* Slightly darker for light theme contrast */
+  --accent-emerald-transparent: rgba(16, 185, 129, 0.15);
+  
+  /* Brand aliases */
+  --brand-primary: var(--accent-blue);
+  --brand-primary-transparent: var(--accent-blue-transparent);
+  
+  /* Text */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #94a3b8;
+  --text-muted: #94a3b8;
+  --text-inverse: #ffffff;
+  
+  /* Borders */
+  --border-default: #e2e8f0;
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --border-default-light: rgba(0, 0, 0, 0.04);
+
+  /* Shadows */
+  --shadow-color: 220 20% 60%;
+  
+  /* Gradients */
+  --gradient-glass: linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%);
+  --gradient-cta: linear-gradient(135deg, rgba(241, 245, 249, 0.8) 0%, rgba(59, 130, 246, 0.1) 100%);
+}
+
+:root {
+  /* Typography */
+  --font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+  
+  /* Fluid Typography Scale */
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.38vw, 1rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1.05rem + 0.38vw, 1.25rem);
+  --text-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.35rem + 0.75vw, 1.875rem);
+  --text-3xl: clamp(1.875rem, 1.65rem + 1.13vw, 2.25rem);
+  --text-4xl: clamp(2.25rem, 1.95rem + 1.5vw, 3rem);
+  --text-5xl: clamp(3rem, 2.5rem + 2.5vw, 4rem);
+
+  /* Spacing */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Shadows using HSL for dynamic opacity */
+  --shadow-sm: 0 1px 2px 0 hsl(var(--shadow-color) / 0.05);
+  --shadow-md: 0 4px 6px -1px hsl(var(--shadow-color) / 0.1), 0 2px 4px -1px hsl(var(--shadow-color) / 0.06);
+  --shadow-lg: 0 10px 15px -3px hsl(var(--shadow-color) / 0.1), 0 4px 6px -2px hsl(var(--shadow-color) / 0.05);
+  --shadow-xl: 0 20px 25px -5px hsl(var(--shadow-color) / 0.1), 0 10px 10px -5px hsl(var(--shadow-color) / 0.04);
+  --shadow-glow-primary: 0 0 15px var(--accent-blue-transparent);
+  --shadow-glow-emerald: 0 0 15px var(--accent-emerald-transparent);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Z-Index */
+  --z-base: 0;
+  --z-above: 10;
+  --z-header: 100;
+  --z-modal-backdrop: 1000;
+  --z-modal: 1010;
+  --z-toast: 1100;
+}

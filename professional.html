@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    (function(){
+      const t = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme:light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="BlueCollar Connect - Find and hire verified local professionals for electrical, plumbing, home repair, and more.">
+  <meta name="keywords" content="electrician, plumber, carpenter, home repair, local professionals">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+
+  <title>Professional Profile | BlueCollar Connect</title>
+  
+  <!-- Performance Preconnects -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/variables.css">
+  <link rel="stylesheet" href="./css/global.css">
+  <link rel="stylesheet" href="./css/transitions.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/header.css">
+  <link rel="stylesheet" href="./css/footer.css">
+  <link rel="stylesheet" href="./css/professional.css">
+
+  <!-- Icons (Lucide) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="expect" href="#main-content" blocking="render">
+</head>
+<body>
+  <header>
+    <div class="container header-container">
+      <a href="./index.html" class="logo-container">
+        <i data-lucide="wrench"></i>
+        <div class="logo-text">
+          <span>BlueCollar</span>
+          <span class="logo-text-primary">Connect</span>
+        </div>
+      </a>
+      
+      <nav class="nav-desktop">
+        <div class="nav-links">
+          <a href="./index.html" class="nav-link">Home</a>
+          <a href="./services.html" class="nav-link active">Services</a>
+          <a href="/how-it-works.html" class="nav-link">How It Works</a>
+          <a href="./services.html?verified=true" class="nav-link">Verified Pros</a>
+        </div>
+      </nav>
+
+      <div class="header-actions">
+        
+        <button class="btn btn-ghost global-location-btn" title="Set Location" style="padding: var(--spacing-2) var(--spacing-3);">
+          <i data-lucide="map-pin"></i>
+          <span class="location-text" style="font-weight: 500;">Set Location</span>
+        </button>
+
+        <div class="theme-dropdown-container">
+          <button class="theme-toggle" aria-label="Toggle theme" aria-haspopup="true" aria-expanded="false" title="Theme Settings">
+            <i data-lucide="monitor"></i>
+          </button>
+          <div class="theme-dropdown-menu">
+            <button class="theme-option" data-theme-value="light">
+              <i data-lucide="sun"></i> Light
+            </button>
+            <button class="theme-option" data-theme-value="dark">
+              <i data-lucide="moon"></i> Dark
+            </button>
+            <button class="theme-option" data-theme-value="system">
+              <i data-lucide="monitor"></i> System
+            </button>
+          </div>
+        </div>
+        <button class="btn btn-ghost">Login</button>
+        <button class="btn btn-primary">Post a Job</button>
+      </div>
+
+      <button class="mobile-menu-btn" aria-label="Toggle menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+    
+    <div class="mobile-menu">
+      <!-- Mobile menu injected via JS in real app, hardcoded here for mock -->
+      <nav class="mobile-nav-links">
+        <a href="./index.html" class="nav-link">Home</a>
+        <a href="./services.html" class="nav-link active">Services</a>
+        <a href="/how-it-works.html" class="nav-link">How It Works</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="page-top-padding">
+    <div class="container py-8">
+      <div class="breadcrumb mb-6">
+        <a href="./index.html">Home</a> <i data-lucide="chevron-right" class="icon-sm mx-1"></i>
+        <a href="./services.html">Services</a> <i data-lucide="chevron-right" class="icon-sm mx-1"></i>
+        <a href="#" id="breadcrumb-cat">Category</a> <i data-lucide="chevron-right" class="icon-sm mx-1"></i>
+        <span id="breadcrumb-current" class="text-primary">Professional</span>
+      </div>
+
+      <div class="profile-layout">
+        <!-- Main Profile Details -->
+        <div class="profile-main">
+          
+          <div class="profile-header glass-panel">
+            <div class="profile-header-content">
+              <img src="https://i.pravatar.cc/150" alt="Pro" id="pro-photo" class="profile-avatar" loading="lazy">
+              <div class="profile-info">
+                <div class="flex items-center gap-2 mb-1">
+                  <h1 id="pro-name" class="text-3xl skeleton">Loading...</h1>
+                  <span id="pro-verified" class="badge-verified px-2 py-1 text-xs rounded-full hidden flex items-center gap-1">
+                    <i data-lucide="check-circle" class="icon-sm"></i> Verified
+                  </span>
+                </div>
+                <div class="text-secondary mb-3 flex items-center gap-4 flex-wrap">
+                  <span id="pro-category" class="font-medium"></span>
+                  <span id="pro-location" class="flex items-center gap-1"><i data-lucide="map-pin" class="icon-sm"></i> </span>
+                  <span id="pro-rating-summary" class="flex items-center gap-1 text-amber font-medium"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-stats">
+              <div class="stat-box">
+                <div class="stat-value text-xl font-bold" id="pro-jobs">--</div>
+                <div class="stat-label text-sm text-secondary">Jobs Done</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-value text-xl font-bold" id="pro-exp">--</div>
+                <div class="stat-label text-sm text-secondary">Years Exp.</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-value text-xl font-bold">₹<span id="pro-rate">--</span></div>
+                <div class="stat-label text-sm text-secondary">Per Hour</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-section">
+            <h3 class="mb-4">About the Professional</h3>
+            <p id="pro-bio" class="text-secondary leading-relaxed skeleton">Loading biography...</p>
+          </div>
+
+          <div class="profile-section">
+            <h3 class="mb-4">Skills & Expertise</h3>
+            <div id="pro-skills" class="skills-grid skeleton">
+              <div class="skill-chip">Loading skill...</div>
+              <div class="skill-chip">Loading skill...</div>
+            </div>
+          </div>
+
+          <div class="profile-section" id="gallery-section">
+            <h3 class="mb-4">Past Work</h3>
+            <div id="pro-gallery" class="gallery-grid">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="profile-section">
+            <div class="flex justify-between items-center mb-6">
+              <h3>Reviews (<span id="review-count">0</span>)</h3>
+            </div>
+            <div id="pro-reviews" class="reviews-list">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Sticky Sidebar for Booking -->
+        <aside class="profile-sidebar">
+          <div class="booking-card glass-panel sticky-top">
+            <div class="booking-price mb-6">
+              <div class="text-sm text-secondary">Starting from</div>
+              <div class="text-3xl font-bold">₹<span id="sidebar-rate">--</span><span class="text-base text-secondary font-normal"> / hour</span></div>
+            </div>
+            
+            <div class="booking-info mb-6">
+              <div class="info-row">
+                <i data-lucide="clock" class="text-primary"></i>
+                <div id="pro-availability" class="font-medium"></div>
+              </div>
+              <div class="info-row">
+                <i data-lucide="zap" class="text-amber"></i>
+                <div id="pro-response" class="font-medium"></div>
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-lg w-full mb-4" id="book-now-btn">Book Now</button>
+            <button class="btn btn-outline btn-lg w-full">Message Professional</button>
+            
+            <div class="mt-4 text-center text-sm text-secondary flex items-center justify-center gap-2">
+              <i data-lucide="shield-check" class="icon-sm text-emerald"></i>
+              BlueCollar Guarantee
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer></footer>
+
+  <!-- Booking Modal -->
+  <div id="booking-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-content glass-panel">
+      <div class="modal-header">
+        <h3 id="modal-title">Book Service</h3>
+        <button class="close-modal" aria-label="Close modal"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-4">
+          <label class="input-label">Select Date & Time</label>
+          <input type="datetime-local" class="input-field mt-1" required>
+        </div>
+        <div class="mb-4">
+          <label class="input-label">Describe the problem/task</label>
+          <textarea class="input-field mt-1" rows="4" placeholder="Please provide details about what needs to be done..." required></textarea>
+        </div>
+        <div class="mb-4">
+          <label class="input-label">Address</label>
+          <textarea class="input-field mt-1" rows="2" placeholder="Your full address..." required></textarea>
+        </div>
+        <button class="btn btn-primary btn-lg w-full" id="confirm-booking-btn">Confirm Booking</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="./js/app.js"></script>
+
+  <!-- Location Modal -->
+  <div id="location-modal" class="modal-overlay hidden">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Set Your Location</h3>
+        <button class="modal-close"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <button id="btn-use-current-location" class="btn btn-primary" style="width: 100%; margin-bottom: var(--spacing-4);">
+          <i data-lucide="crosshair"></i> Use My Current Location
+        </button>
+        <div style="text-align: center; margin-bottom: var(--spacing-4); color: var(--text-muted); font-size: var(--text-sm);">
+          — OR ENTER MANUALLY —
+        </div>
+        <div class="search-input-group" style="border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: var(--spacing-2); display: flex; align-items: center; gap: var(--spacing-2);">
+          <i data-lucide="map-pin" class="text-muted"></i>
+          <input type="text" id="manual-location-input" placeholder="Enter city, neighborhood, or zip..." style="border: none; background: transparent; outline: none; flex: 1; color: var(--text-primary); width: 100%;">
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: var(--spacing-2); margin-top: var(--spacing-6);">
+        <button class="btn btn-ghost modal-close-btn">Cancel</button>
+        <button id="btn-save-location" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+

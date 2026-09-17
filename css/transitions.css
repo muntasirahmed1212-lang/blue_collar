@@ -1,0 +1,98 @@
+/* css/transitions.css */
+
+/* Smooth Theme Transitions */
+*, *::before, *::after {
+  transition: background-color var(--transition-normal),
+              border-color var(--transition-normal),
+              color var(--transition-normal),
+              fill var(--transition-normal),
+              stroke var(--transition-normal);
+}
+
+/* Exempt specific properties or classes from the global transition if they feel laggy */
+.no-theme-transition, .no-theme-transition * {
+  transition: none !important;
+}
+
+/* Page Load Fade-In */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+main {
+  animation: fadeIn 300ms ease-out forwards;
+}
+
+/* Skeleton Loading Shimmer */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton {
+  background: var(--surface-elevated);
+  background-image: linear-gradient(
+    90deg, 
+    var(--surface-elevated) 0px, 
+    var(--surface-secondary) 40px, 
+    var(--surface-elevated) 80px
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+  border-radius: var(--radius-md);
+  color: transparent !important;
+}
+
+.skeleton * {
+  visibility: hidden;
+}
+
+/* ===== Cross-Document View Transitions (Chrome 126+, Safari 18.2+) ===== */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+/* Custom transition animations — smooth cross-fade with subtle slide */
+::view-transition-old(root) {
+  animation: 180ms ease-out both page-fade-out;
+}
+
+::view-transition-new(root) {
+  animation: 180ms ease-out both page-fade-in;
+}
+
+@keyframes page-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(root) {
+    animation: none !important;
+  }
+}
+
+/* Fallback JS-driven Page Exit Animation (Firefox, older browsers) */
+@keyframes fadeOutDown {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+.page-exit main {
+  animation: fadeOutDown 150ms ease-out forwards !important;
+}

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    (function(){
+      const t = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme:light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="BlueCollar Connect - Find and hire verified local professionals for electrical, plumbing, home repair, and more.">
+  <meta name="keywords" content="electrician, plumber, carpenter, home repair, local professionals">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+
+  <title>BlueCollar Connect | Find Trusted Professionals Near You</title>
+  
+  <!-- Performance Preconnects -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/variables.css">
+  <link rel="stylesheet" href="./css/global.css">
+  <link rel="stylesheet" href="./css/transitions.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/header.css">
+  <link rel="stylesheet" href="./css/footer.css">
+  <link rel="stylesheet" href="./css/hero.css">
+  <link rel="stylesheet" href="./css/home.css">
+
+  <!-- Icons (Lucide) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="expect" href="#main-content" blocking="render">
+</head>
+<body>
+
+  <!-- Header will be injected by JS or hardcoded for now -->
+  <header>
+    <div class="container header-container">
+      <a href="./index.html" class="logo-container">
+        <i data-lucide="wrench"></i>
+        <div class="logo-text">
+          <span>BlueCollar</span>
+          <span class="logo-text-primary">Connect</span>
+        </div>
+      </a>
+      
+      <nav class="nav-desktop">
+        <div class="nav-links">
+          <a href="./index.html" class="nav-link">Home</a>
+          <a href="./services.html" class="nav-link">Services</a>
+          <a href="/how-it-works.html" class="nav-link">How It Works</a>
+          <a href="./services.html?verified=true" class="nav-link">Verified Pros</a>
+        </div>
+      </nav>
+
+      <div class="header-actions">
+        
+        <button class="btn btn-ghost global-location-btn" title="Set Location" style="padding: var(--spacing-2) var(--spacing-3);">
+          <i data-lucide="map-pin"></i>
+          <span class="location-text" style="font-weight: 500;">Set Location</span>
+        </button>
+
+        <div class="theme-dropdown-container">
+          <button class="theme-toggle" aria-label="Toggle theme" aria-haspopup="true" aria-expanded="false" title="Theme Settings">
+            <i data-lucide="monitor"></i>
+          </button>
+          <div class="theme-dropdown-menu">
+            <button class="theme-option" data-theme-value="light">
+              <i data-lucide="sun"></i> Light
+            </button>
+            <button class="theme-option" data-theme-value="dark">
+              <i data-lucide="moon"></i> Dark
+            </button>
+            <button class="theme-option" data-theme-value="system">
+              <i data-lucide="monitor"></i> System
+            </button>
+          </div>
+        </div>
+        <button class="btn btn-ghost">Login</button>
+        <button class="btn btn-primary">Post a Job</button>
+      </div>
+
+      <button class="mobile-menu-btn" aria-label="Toggle menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+
+    <div class="mobile-menu">
+      <nav class="mobile-nav-links">
+        <a href="./index.html" class="nav-link">Home</a>
+        <a href="./services.html" class="nav-link">Services</a>
+        <a href="/how-it-works.html" class="nav-link">How It Works</a>
+        <a href="./services.html?verified=true" class="nav-link">Verified Pros</a>
+      </nav>
+      <div class="mobile-actions">
+        
+        <button class="btn btn-outline global-location-btn" style="width: 100%; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <i data-lucide="map-pin"></i> <span class="location-text">Set Location</span>
+        </button>
+
+        <div class="theme-dropdown-container" style="width: 100%; margin-bottom: 12px;">
+          <button class="theme-toggle mobile-theme-toggle" aria-label="Toggle theme" aria-haspopup="true" aria-expanded="false" style="width: 100%; display: flex; align-items: center; justify-content: center; padding: 12px; background: transparent; border: 1px solid var(--border-default); border-radius: var(--radius-md); color: var(--text-primary);">
+            <i data-lucide="monitor"></i> <span style="margin-left: 8px;">Theme Settings</span>
+          </button>
+          <div class="theme-dropdown-menu mobile-dropdown">
+            <button class="theme-option" data-theme-value="light">
+              <i data-lucide="sun"></i> Light
+            </button>
+            <button class="theme-option" data-theme-value="dark">
+              <i data-lucide="moon"></i> Dark
+            </button>
+            <button class="theme-option" data-theme-value="system">
+              <i data-lucide="monitor"></i> System
+            </button>
+          </div>
+        </div>
+        <button class="btn btn-outline" style="width: 100%">Login</button>
+        <button class="btn btn-primary" style="width: 100%">Post a Job</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-bg-elements">
+        <i data-lucide="wrench" class="floating-icon icon-1"></i>
+        <i data-lucide="hammer" class="floating-icon icon-2"></i>
+        <i data-lucide="zap" class="floating-icon icon-3"></i>
+        <i data-lucide="paint-bucket" class="floating-icon icon-4"></i>
+      </div>
+      
+      <div class="container hero-content text-center">
+        <h1 class="hero-title">Find Trusted <br><span class="text-primary">Professionals</span> Near You</h1>
+        <p class="hero-subtitle">Connect with skilled, verified experts for electrical, plumbing, home repair, and more.</p>
+        
+        <div class="search-container glass-panel">
+          <div class="search-input-group flex-1">
+            <i data-lucide="search" class="text-muted"></i>
+            <input type="text" id="service-search" placeholder="Find a service... (e.g. Electrician, Plumber)">
+          </div>
+          <button class="btn btn-primary btn-lg search-btn">Search Now</button>
+          
+          <!-- Autocomplete dropdown (hidden by default) -->
+          <div class="search-autocomplete hidden" id="search-autocomplete">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section bg-secondary py-8 border-y border-border">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item text-center">
+            <h3 class="stat-number text-3xl font-bold mb-2">500+</h3>
+            <p class="stat-label text-sm text-secondary">Verified Professionals</p>
+          </div>
+          <div class="stat-item text-center">
+            <h3 class="stat-number text-3xl font-bold mb-2">10K+</h3>
+            <p class="stat-label text-sm text-secondary">Jobs Completed</p>
+          </div>
+          <div class="stat-item text-center">
+            <h3 class="stat-number text-3xl font-bold mb-2">4.8<i data-lucide="star" class="icon-sm text-amber inline-block ml-1"></i></h3>
+            <p class="stat-label text-sm text-secondary">Average Rating</p>
+          </div>
+          <div class="stat-item text-center">
+            <h3 class="stat-number text-3xl font-bold mb-2">12</h3>
+            <p class="stat-label text-sm text-secondary">Service Categories</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Bar -->
+    <section class="trust-bar">
+      <div class="container">
+        <div class="trust-items">
+          <span class="trust-item"><i data-lucide="shield-check" class="text-emerald"></i> Background Verified</span>
+          <span class="trust-item"><i data-lucide="star" class="text-amber"></i> 4.8 Average Rating</span>
+          <span class="trust-item"><i data-lucide="tag" class="text-blue"></i> Transparent Pricing</span>
+          <span class="trust-item"><i data-lucide="lock" class="text-emerald"></i> Secure Payments</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="section categories-section">
+      <div class="container">
+        <div class="section-header flex justify-between items-center mb-10">
+          <h2 class="section-title">Service Categories</h2>
+          <a href="./services.html" class="btn btn-ghost">View All <i data-lucide="chevron-right" class="icon-sm"></i></a>
+        </div>
+        
+        <div class="categories-grid" id="home-categories-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Pros Section -->
+    <section class="section featured-pros-section" style="background-color: var(--surface-secondary)">
+      <div class="container">
+        <div class="section-header flex justify-between items-center mb-10">
+          <h2 class="section-title">Featured Professionals</h2>
+        </div>
+        
+        <div class="featured-pros-grid" id="featured-pros-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section text-center">
+      <div class="container">
+        <div class="cta-card glass-panel">
+          <h2 class="mb-4">Are you a professional?</h2>
+          <p class="mb-8 text-secondary max-w-2xl mx-auto">Join BlueCollar Connect to reach more customers, manage your bookings easily, and grow your business.</p>
+          <button class="btn btn-primary btn-lg">Register as a Pro</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer will be injected by JS -->
+  <footer></footer>
+
+  <!-- Scripts -->
+  <script type="module" src="./js/app.js"></script>
+  <script type="module" src="./js/pages/home.js"></script>
+  <script>
+    // Initialize icons globally if not using module for everything
+    lucide.createIcons();
+  </script>
+
+  <!-- Location Modal -->
+  <div id="location-modal" class="modal-overlay hidden">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Set Your Location</h3>
+        <button class="modal-close"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <button id="btn-use-current-location" class="btn btn-primary" style="width: 100%; margin-bottom: var(--spacing-4);">
+          <i data-lucide="crosshair"></i> Use My Current Location
+        </button>
+        <div style="text-align: center; margin-bottom: var(--spacing-4); color: var(--text-muted); font-size: var(--text-sm);">
+          — OR ENTER MANUALLY —
+        </div>
+        <div class="search-input-group" style="border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: var(--spacing-2); display: flex; align-items: center; gap: var(--spacing-2);">
+          <i data-lucide="map-pin" class="text-muted"></i>
+          <input type="text" id="manual-location-input" placeholder="Enter city, neighborhood, or zip..." style="border: none; background: transparent; outline: none; flex: 1; color: var(--text-primary); width: 100%;">
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: var(--spacing-2); margin-top: var(--spacing-6);">
+        <button class="btn btn-ghost modal-close-btn">Cancel</button>
+        <button id="btn-save-location" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+

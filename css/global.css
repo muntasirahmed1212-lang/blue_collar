@@ -1,0 +1,171 @@
+/* css/global.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--surface-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  letter-spacing: 0.01em;
+}
+
+main {
+  flex: 1;
+}
+
+
+/* Utility classes */
+.page-top-padding {
+  padding-top: 80px; /* Accounts for fixed header */
+}
+
+.py-8 { 
+  padding-top: var(--spacing-8); 
+  padding-bottom: var(--spacing-8); 
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+h1 { font-size: var(--text-5xl); letter-spacing: -0.025em; }
+h2 { font-size: var(--text-4xl); letter-spacing: -0.025em; }
+h3 { font-size: var(--text-3xl); }
+h4 { font-size: var(--text-2xl); }
+h5 { font-size: var(--text-xl); }
+h6 { font-size: var(--text-lg); }
+
+p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Typography Utilities */
+.text-balance { text-wrap: balance; }
+.max-w-prose { max-width: 65ch; }
+
+/* Layout Utilities */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-4);
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 var(--spacing-8);
+  }
+}
+
+.section {
+  padding: var(--spacing-16) 0;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: var(--spacing-24) 0;
+  }
+}
+
+/* Utilities */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Text Alignment */
+.text-center { text-align: center; }
+
+/* Text Colors */
+.text-primary { color: var(--accent-blue); }
+.text-amber { color: var(--accent-amber); }
+.text-emerald { color: var(--accent-emerald); }
+.text-blue { color: var(--accent-blue); }
+.text-white { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+
+/* Text Sizes */
+.text-xs { font-size: var(--text-xs); }
+.text-sm { font-size: var(--text-sm); }
+.text-base { font-size: var(--text-base); }
+.text-lg { font-size: var(--text-lg); }
+.text-xl { font-size: var(--text-xl); }
+.text-2xl { font-size: var(--text-2xl); }
+.text-3xl { font-size: var(--text-3xl); }
+
+/* Font Weights */
+.font-medium { font-weight: 500; }
+.font-bold { font-weight: 700; }
+.font-normal { font-weight: 400; }
+
+/* Line Height */
+.leading-relaxed { line-height: 1.75; }
+
+/* Margins */
+.mb-1 { margin-bottom: var(--spacing-1); }
+.mb-2 { margin-bottom: var(--spacing-2); }
+.mb-3 { margin-bottom: var(--spacing-3); }
+.mb-4 { margin-bottom: var(--spacing-4); }
+.mb-6 { margin-bottom: var(--spacing-6); }
+.mb-8 { margin-bottom: var(--spacing-8); }
+.mb-10 { margin-bottom: var(--spacing-10); }
+.mb-12 { margin-bottom: var(--spacing-12); }
+.mt-1 { margin-top: var(--spacing-1); }
+.mt-4 { margin-top: var(--spacing-4); }
+.ml-1 { margin-left: var(--spacing-1); }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.mx-1 { margin-left: var(--spacing-1); margin-right: var(--spacing-1); }
+
+/* Padding */
+.px-2 { padding-left: var(--spacing-2); padding-right: var(--spacing-2); }
+.py-1 { padding-top: var(--spacing-1); padding-bottom: var(--spacing-1); }
+.pt-0 { padding-top: 0; }
+
+/* Flexbox */
+.flex { display: flex; }
+.flex-col { display: flex; flex-direction: column; }
+.flex-1 { flex: 1; }
+.flex-wrap { flex-wrap: wrap; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.gap-1 { gap: var(--spacing-1); }
+.gap-2 { gap: var(--spacing-2); }
+.gap-3 { gap: var(--spacing-3); }
+.gap-4 { gap: var(--spacing-4); }
+.gap-6 { gap: var(--spacing-6); }
+.inline-block { display: inline-block; }
+
+/* Layout */
+.max-w-2xl { max-width: 42rem; }
+
+/* Border Radius */
+.rounded-full { border-radius: var(--radius-full); }
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: var(--surface-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+}
+
+/* Typography Utilities */
+.text-balance { text-wrap: balance; }
+.max-w-prose { max-width: 65ch; }

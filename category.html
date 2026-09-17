@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    (function(){
+      const t = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme:light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="BlueCollar Connect - Find and hire verified local professionals for electrical, plumbing, home repair, and more.">
+  <meta name="keywords" content="electrician, plumber, carpenter, home repair, local professionals">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+
+  <title>Professionals | BlueCollar Connect</title>
+  
+  <!-- Performance Preconnects -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/variables.css">
+  <link rel="stylesheet" href="./css/global.css">
+  <link rel="stylesheet" href="./css/transitions.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/header.css">
+  <link rel="stylesheet" href="./css/footer.css">
+  <link rel="stylesheet" href="./css/category.css">
+  <link rel="stylesheet" href="./css/home.css"> <!-- Reusing pro-card styles -->
+
+  <!-- Icons (Lucide) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="expect" href="#main-content" blocking="render">
+</head>
+<body>
+  <header>
+    <div class="container header-container">
+      <a href="./index.html" class="logo-container">
+        <i data-lucide="wrench"></i>
+        <div class="logo-text">
+          <span>BlueCollar</span>
+          <span class="logo-text-primary">Connect</span>
+        </div>
+      </a>
+      
+      <nav class="nav-desktop">
+        <div class="nav-links">
+          <a href="./index.html" class="nav-link">Home</a>
+          <a href="./services.html" class="nav-link active">Services</a>
+          <a href="/how-it-works.html" class="nav-link">How It Works</a>
+          <a href="./services.html?verified=true" class="nav-link">Verified Pros</a>
+        </div>
+      </nav>
+
+      <div class="header-actions">
+        
+        <button class="btn btn-ghost global-location-btn" title="Set Location" style="padding: var(--spacing-2) var(--spacing-3);">
+          <i data-lucide="map-pin"></i>
+          <span class="location-text" style="font-weight: 500;">Set Location</span>
+        </button>
+
+        <div class="theme-dropdown-container">
+          <button class="theme-toggle" aria-label="Toggle theme" aria-haspopup="true" aria-expanded="false" title="Theme Settings">
+            <i data-lucide="monitor"></i>
+          </button>
+          <div class="theme-dropdown-menu">
+            <button class="theme-option" data-theme-value="light">
+              <i data-lucide="sun"></i> Light
+            </button>
+            <button class="theme-option" data-theme-value="dark">
+              <i data-lucide="moon"></i> Dark
+            </button>
+            <button class="theme-option" data-theme-value="system">
+              <i data-lucide="monitor"></i> System
+            </button>
+          </div>
+        </div>
+        <button class="btn btn-ghost">Login</button>
+        <button class="btn btn-primary">Post a Job</button>
+      </div>
+
+      <button class="mobile-menu-btn" aria-label="Toggle menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+
+    <div class="mobile-menu">
+      <nav class="mobile-nav-links">
+        <a href="./index.html" class="nav-link">Home</a>
+        <a href="./services.html" class="nav-link active">Services</a>
+        <a href="/how-it-works.html" class="nav-link">How It Works</a>
+        <a href="./services.html?verified=true" class="nav-link">Verified Pros</a>
+      </nav>
+      <div class="mobile-actions">
+        
+        <button class="btn btn-outline global-location-btn" style="width: 100%; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <i data-lucide="map-pin"></i> <span class="location-text">Set Location</span>
+        </button>
+
+        <div class="theme-dropdown-container" style="width: 100%; margin-bottom: 12px;">
+          <button class="theme-toggle mobile-theme-toggle" aria-label="Toggle theme" aria-haspopup="true" aria-expanded="false" style="width: 100%; display: flex; align-items: center; justify-content: center; padding: 12px; background: transparent; border: 1px solid var(--border-default); border-radius: var(--radius-md); color: var(--text-primary);">
+            <i data-lucide="monitor"></i> <span style="margin-left: 8px;">Theme Settings</span>
+          </button>
+          <div class="theme-dropdown-menu mobile-dropdown">
+            <button class="theme-option" data-theme-value="light">
+              <i data-lucide="sun"></i> Light
+            </button>
+            <button class="theme-option" data-theme-value="dark">
+              <i data-lucide="moon"></i> Dark
+            </button>
+            <button class="theme-option" data-theme-value="system">
+              <i data-lucide="monitor"></i> System
+            </button>
+          </div>
+        </div>
+        <button class="btn btn-outline" style="width: 100%">Login</button>
+        <button class="btn btn-primary" style="width: 100%">Post a Job</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="page-top-padding">
+    <div class="category-hero">
+      <div class="container">
+        <div class="breadcrumb mb-4">
+          <a href="./index.html">Home</a> <i data-lucide="chevron-right" class="icon-sm mx-1"></i>
+          <a href="./services.html">Services</a> <i data-lucide="chevron-right" class="icon-sm mx-1"></i>
+          <span id="breadcrumb-current" class="text-primary">Loading...</span>
+        </div>
+        
+        <div class="flex items-center gap-4 mb-2">
+          <div id="category-icon" class="category-icon-large text-primary"></div>
+          <h1 id="category-title">Loading...</h1>
+        </div>
+        <p id="category-desc" class="text-secondary max-w-2xl mb-6">...</p>
+      </div>
+    </div>
+
+    <section class="section pt-8">
+      <div class="container layout-with-sidebar">
+        <!-- Sidebar Filters -->
+        <aside class="sidebar-filters glass-panel">
+          <div class="filter-header mb-6 flex justify-between items-center">
+            <h3 class="font-bold">Filters</h3>
+            <button id="reset-filters" class="btn btn-ghost" style="padding: 0; font-size: var(--text-sm);">Reset</button>
+          </div>
+
+          <div class="filter-group">
+            <h4 class="filter-title">Rating</h4>
+            <div class="radio-list">
+              <label class="radio-label">
+                <input type="radio" name="rating" value="4.5" checked>
+                <span>4.5 & up</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="rating" value="4.0">
+                <span>4.0 & up</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="rating" value="all">
+                <span>Any rating</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <h4 class="filter-title">Verification</h4>
+            <label class="checkbox-label">
+              <input type="checkbox" id="filter-verified" checked>
+              <span>Verified Professionals Only</span>
+            </label>
+          </div>
+          
+          <div class="filter-group">
+            <h4 class="filter-title">Availability</h4>
+            <select id="filter-availability" class="input-field">
+              <option value="all">Any availability</option>
+              <option value="Available Today">Available Today</option>
+              <option value="Available Tomorrow">Available Tomorrow</option>
+            </select>
+          </div>
+
+          <button id="apply-filters-btn" class="btn btn-primary" style="width: 100%;">Apply Filters</button>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+          <div class="results-header flex justify-between items-center mb-6">
+            <div id="results-count" class="text-secondary">Loading...</div>
+            
+            <div class="sort-control flex items-center gap-2">
+              <span class="text-sm text-secondary">Sort by:</span>
+              <select id="sort-select" class="input-field" style="padding: var(--spacing-2); border-radius: var(--radius-sm);">
+                <option value="recommended">Recommended</option>
+                <option value="rating_desc">Highest Rated</option>
+                <option value="price_asc">Lowest Price</option>
+                <option value="reviews_desc">Most Reviews</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="featured-pros-grid" id="pros-grid">
+            <!-- Populated by JS -->
+          </div>
+
+          <div id="no-pros-message" class="hidden text-center py-12 text-secondary glass-panel rounded-xl mt-4">
+            <i data-lucide="search-x" class="icon-xl mb-4 text-muted mx-auto"></i>
+            <p>No professionals found matching your criteria.</p>
+            <button class="btn btn-outline mt-4" id="clear-filters-btn">Clear all filters</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer></footer>
+
+  <!-- Scripts -->
+  <script type="module" src="./js/app.js"></script>
+
+  <!-- Location Modal -->
+  <div id="location-modal" class="modal-overlay hidden">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Set Your Location</h3>
+        <button class="modal-close"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <button id="btn-use-current-location" class="btn btn-primary" style="width: 100%; margin-bottom: var(--spacing-4);">
+          <i data-lucide="crosshair"></i> Use My Current Location
+        </button>
+        <div style="text-align: center; margin-bottom: var(--spacing-4); color: var(--text-muted); font-size: var(--text-sm);">
+          — OR ENTER MANUALLY —
+        </div>
+        <div class="search-input-group" style="border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: var(--spacing-2); display: flex; align-items: center; gap: var(--spacing-2);">
+          <i data-lucide="map-pin" class="text-muted"></i>
+          <input type="text" id="manual-location-input" placeholder="Enter city, neighborhood, or zip..." style="border: none; background: transparent; outline: none; flex: 1; color: var(--text-primary); width: 100%;">
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: var(--spacing-2); margin-top: var(--spacing-6);">
+        <button class="btn btn-ghost modal-close-btn">Cancel</button>
+        <button id="btn-save-location" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+
