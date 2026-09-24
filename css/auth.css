@@ -1,0 +1,90 @@
+/* css/auth.css */
+
+.auth-modal {
+  max-width: 400px;
+}
+
+.auth-modal .modal-body {
+  padding: var(--spacing-6) var(--spacing-8);
+}
+
+.auth-modal .input-group {
+  margin-bottom: var(--spacing-4);
+}
+
+.auth-modal .btn-primary {
+  width: 100%;
+  margin-top: var(--spacing-2);
+  margin-bottom: var(--spacing-4);
+}
+
+.auth-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  text-align: center;
+  font-size: var(--text-sm);
+}
+
+.auth-links a {
+  color: var(--accent-blue);
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.auth-links a:hover {
+  color: var(--accent-blue-hover);
+  text-decoration: underline;
+}
+
+.otp-inputs {
+  display: flex;
+  gap: var(--spacing-2);
+  justify-content: space-between;
+  margin-bottom: var(--spacing-6);
+  margin-top: var(--spacing-4);
+}
+
+.otp-input {
+  width: 45px;
+  height: 50px;
+  text-align: center;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+  background-color: var(--surface-primary);
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+}
+
+.otp-input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 2px var(--accent-blue-transparent);
+}
+
+.auth-error-msg {
+  color: var(--accent-amber);
+  font-size: var(--text-sm);
+  margin-bottom: var(--spacing-4);
+  text-align: center;
+  display: none;
+}
+
+.auth-success-msg {
+  color: var(--accent-emerald);
+  font-size: var(--text-sm);
+  margin-bottom: var(--spacing-4);
+  text-align: center;
+  display: none;
+}
+
+.resend-text {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: var(--spacing-4);
+}

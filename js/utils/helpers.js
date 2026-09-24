@@ -13,7 +13,11 @@ export function showToast(message, type = 'info') {
   if (!container) {
     container = document.createElement('div');
     container.className = 'toast-container';
-    document.body.appendChild(container);
+    if (document.body) {
+      document.body.appendChild(container);
+    } else {
+      document.documentElement.appendChild(container);
+    }
   }
 
   const toast = document.createElement('div');

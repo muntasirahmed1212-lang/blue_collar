@@ -9,7 +9,12 @@
 @media (min-width: 1024px) {
   .profile-layout {
     grid-template-columns: 1fr 350px;
-    align-items: start;
+    align-items: stretch;
+  }
+
+  .profile-sidebar {
+    height: 100%;
+    align-self: stretch;
   }
 }
 
@@ -137,6 +142,11 @@
 }
 
 /* Sidebar */
+.profile-sidebar {
+  height: 100%;
+  align-self: stretch;
+}
+
 .sticky-top {
   position: sticky;
   top: 100px;

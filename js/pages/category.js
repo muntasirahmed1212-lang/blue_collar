@@ -2,6 +2,7 @@
 import { getCategoryBySlug } from '../data/categories.js';
 import { getProfessionalsByCategory } from '../data/professionals.js';
 import { getQueryParams } from '../utils/helpers.js';
+import { observeNewElements } from '../utils/animations.js';
 
 export function initCategory() {
   const params = getQueryParams();
@@ -53,7 +54,7 @@ export function initCategory() {
     countEl.textContent = `Showing ${pros.length} professional${pros.length > 1 ? 's' : ''}`;
 
     const markup = pros.map(pro => `
-      <div class="pro-card card">
+      <div class="pro-card card" data-animate="fade-up">
         <div class="pro-card-header">
           <img src="${pro.photo}" alt="${pro.name}" class="pro-avatar" loading="lazy">
           <div class="pro-info">
@@ -74,6 +75,7 @@ export function initCategory() {
           </div>
           <div class="pro-skills mt-3">
             ${pro.skills.slice(0, 3).map(skill => `<span class="skill-chip">${skill}</span>`).join('')}
+            ${pro.skills.length > 3 ? `<span class="skill-chip">+${pro.skills.length - 3}</span>` : ''}
           </div>
         </div>
         <div class="pro-card-footer">
@@ -85,6 +87,7 @@ export function initCategory() {
 
     grid.innerHTML = markup;
     if (window.lucide) window.lucide.createIcons();
+    observeNewElements(grid);
   }
 
   function applyFiltersAndSort() {

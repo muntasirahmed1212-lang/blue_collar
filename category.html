@@ -27,6 +27,8 @@
   <link rel="stylesheet" href="./css/global.css">
   <link rel="stylesheet" href="./css/transitions.css">
   <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/auth.css">
+  <link rel="stylesheet" href="./css/scroll-animations.css">
   <link rel="stylesheet" href="./css/header.css">
   <link rel="stylesheet" href="./css/footer.css">
   <link rel="stylesheet" href="./css/category.css">
@@ -126,24 +128,24 @@
   <main id="main-content" class="page-top-padding">
     <div class="category-hero">
       <div class="container">
-        <div class="breadcrumb mb-4">
+        <div class="breadcrumb mb-4" data-animate="fade-up">
           <a href="./index.html">Home</a> <i data-lucide="chevron-right" class="icon-sm mx-1"></i>
           <a href="./services.html">Services</a> <i data-lucide="chevron-right" class="icon-sm mx-1"></i>
           <span id="breadcrumb-current" class="text-primary">Loading...</span>
         </div>
         
-        <div class="flex items-center gap-4 mb-2">
+        <div class="flex items-center gap-4 mb-2" data-animate="fade-up">
           <div id="category-icon" class="category-icon-large text-primary"></div>
           <h1 id="category-title">Loading...</h1>
         </div>
-        <p id="category-desc" class="text-secondary max-w-2xl mb-6">...</p>
+        <p id="category-desc" class="text-secondary max-w-2xl mb-6" data-animate="fade-up">...</p>
       </div>
     </div>
 
     <section class="section pt-8">
       <div class="container layout-with-sidebar">
         <!-- Sidebar Filters -->
-        <aside class="sidebar-filters glass-panel">
+        <aside class="sidebar-filters glass-panel" data-animate="fade-up">
           <div class="filter-header mb-6 flex justify-between items-center">
             <h3 class="font-bold">Filters</h3>
             <button id="reset-filters" class="btn btn-ghost" style="padding: 0; font-size: var(--text-sm);">Reset</button>

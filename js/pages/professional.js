@@ -1,6 +1,7 @@
 // js/pages/professional.js
 import { getProfessionalById } from '../data/professionals.js';
 import { getQueryParams } from '../utils/helpers.js';
+import { observeNewElements } from '../utils/animations.js';
 
 export function initProfessional() {
   const params = getQueryParams();
@@ -60,7 +61,7 @@ export function initProfessional() {
   // Gallery
   const gallerySection = document.getElementById('gallery-section');
   if (pro.gallery && pro.gallery.length > 0) {
-    const galleryMarkup = pro.gallery.map(img => `<img src="${img}" alt="Past work" class="gallery-img" loading="lazy">`).join('');
+    const galleryMarkup = pro.gallery.map(img => `<img src="${img}" alt="Past work" class="gallery-img" data-animate="fade-up" loading="lazy">`).join('');
     document.getElementById('pro-gallery').innerHTML = galleryMarkup;
   } else {
     gallerySection.classList.add('hidden');
@@ -70,7 +71,7 @@ export function initProfessional() {
   document.getElementById('review-count').textContent = pro.reviews.length;
   if (pro.reviews && pro.reviews.length > 0) {
     const reviewsMarkup = pro.reviews.map(r => `
-      <div class="review-item">
+      <div class="review-item" data-animate="fade-up">
         <div class="review-header">
           <div class="font-medium">${r.user}</div>
           <div class="text-sm text-secondary">${r.date}</div>
@@ -95,6 +96,8 @@ export function initProfessional() {
   document.title = `${pro.name} - ${pro.categoryName} | BlueCollar Connect`;
   
   if (window.lucide) window.lucide.createIcons();
+  observeNewElements(document.querySelector('.profile-layout') || document);
+
 
   // Modal Logic (with Accessibility)
   const modal = document.getElementById('booking-modal');

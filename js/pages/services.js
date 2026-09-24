@@ -1,5 +1,6 @@
 // js/pages/services.js
 import { categories } from '../data/categories.js';
+import { observeNewElements } from '../utils/animations.js';
 
 export function initServices() {
   const grid = document.getElementById('all-categories-grid');
@@ -17,7 +18,7 @@ export function initServices() {
     
     noResults.classList.add('hidden');
     const markup = data.map(cat => `
-      <a href="/category.html?cat=${cat.slug}" class="service-card-full">
+      <a href="/category.html?cat=${cat.slug}" class="service-card-full" data-animate="fade-up">
         <div class="service-icon-box">
           <i data-lucide="${cat.icon}"></i>
         </div>
@@ -35,6 +36,7 @@ export function initServices() {
 
     grid.innerHTML = markup;
     if (window.lucide) window.lucide.createIcons();
+    observeNewElements(grid);
   }
 
   // Initial render

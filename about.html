@@ -27,6 +27,8 @@
   <link rel="stylesheet" href="./css/global.css">
   <link rel="stylesheet" href="./css/transitions.css">
   <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/auth.css">
+  <link rel="stylesheet" href="./css/scroll-animations.css">
   <link rel="stylesheet" href="./css/header.css">
   <link rel="stylesheet" href="./css/footer.css">
 
@@ -97,6 +99,10 @@
         <a href="./services.html?verified=true" class="nav-link">Verified Pros</a>
       </nav>
       <div class="mobile-actions">
+        
+        <button class="btn btn-outline global-location-btn" style="width: 100%; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <i data-lucide="map-pin"></i> <span class="location-text">Set Location</span>
+        </button>
         <div class="theme-dropdown-container" style="width: 100%; margin-bottom: 12px;">
           <button class="theme-toggle mobile-theme-toggle" aria-label="Toggle theme" aria-haspopup="true" aria-expanded="false" style="width: 100%; display: flex; align-items: center; justify-content: center; padding: 12px; background: transparent; border: 1px solid var(--border-default); border-radius: var(--radius-md); color: var(--text-primary);">
             <i data-lucide="monitor"></i> <span style="margin-left: 8px;">Theme Settings</span>
@@ -121,26 +127,26 @@
 
   <main id="main-content" class="page-top-padding">
     <div class="container about-hero">
-      <h1 class="mb-6">About BlueCollar Connect</h1>
+      <h1 class="mb-6" data-char-reveal>About BlueCollar Connect</h1>
       <div class="content-block">
-        <p class="mb-6">
+        <p class="mb-6" data-animate="fade-up">
           We believe that finding reliable, skilled professionals for your home and business shouldn't be a gamble. BlueCollar Connect was founded with a simple mission: to bridge the gap between skilled blue-collar workers and the people who need their services, fostering trust and transparency in the gig economy.
         </p>
-        <p>
+        <p data-animate="fade-up">
           Unlike traditional agencies or fragmented directories, we provide a modern, empowering platform where professionals can build their brand, and customers can make informed decisions based on real reviews, transparent pricing, and verified skills.
         </p>
       </div>
 
       <div class="feature-list">
-        <div class="feature-item">
+        <div class="feature-item" data-animate="fade-up">
           <h4><i data-lucide="shield-check" class="text-emerald"></i> Trust & Safety</h4>
           <p class="text-sm">Every professional on our platform undergoes a rigorous verification process. We verify identities and skills so you can hire with peace of mind.</p>
         </div>
-        <div class="feature-item">
+        <div class="feature-item" data-animate="fade-up">
           <h4><i data-lucide="trending-up" class="text-primary"></i> Empowering Workers</h4>
           <p class="text-sm">We provide tools for blue-collar professionals to manage their own schedules, set fair prices, and grow their independent businesses.</p>
         </div>
-        <div class="feature-item">
+        <div class="feature-item" data-animate="fade-up">
           <h4><i data-lucide="message-square" class="text-amber"></i> Transparent Reviews</h4>
           <p class="text-sm">Our community runs on honesty. Only users who have booked and completed a service can leave reviews, ensuring 100% authenticity.</p>
         </div>

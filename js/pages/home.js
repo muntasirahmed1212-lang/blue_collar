@@ -1,6 +1,7 @@
 // js/pages/home.js
 import { categories } from '../data/categories.js';
 import { getFeaturedProfessionals } from '../data/professionals.js';
+import { observeNewElements } from '../utils/animations.js';
 
 export function initHome() {
   renderCategories();
@@ -15,7 +16,7 @@ function renderCategories() {
   const homeCategories = categories.slice(0, 8);
   
   const markup = homeCategories.map(cat => `
-    <a href="/category.html?cat=${cat.slug}" class="category-card card" style="text-decoration: none; color: inherit;">
+    <a href="/category.html?cat=${cat.slug}" class="category-card card" data-animate="fade-up" style="text-decoration: none; color: inherit;">
       <div class="category-icon-wrapper">
         <i data-lucide="${cat.icon}"></i>
       </div>
@@ -25,6 +26,8 @@ function renderCategories() {
   `).join('');
 
   grid.innerHTML = markup;
+  if (window.lucide) window.lucide.createIcons();
+  observeNewElements(grid);
 }
 
 function renderFeaturedPros() {
@@ -34,7 +37,7 @@ function renderFeaturedPros() {
   const featuredPros = getFeaturedProfessionals(6);
   
   const markup = featuredPros.map(pro => `
-    <div class="pro-card card">
+    <div class="pro-card card" data-animate="fade-up">
       <div class="pro-card-header">
         <img src="${pro.photo}" alt="${pro.name}" class="pro-avatar" loading="lazy">
         <div class="pro-info">
@@ -64,4 +67,7 @@ function renderFeaturedPros() {
   `).join('');
 
   grid.innerHTML = markup;
+  if (window.lucide) window.lucide.createIcons();
+  observeNewElements(grid);
 }
+

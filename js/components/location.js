@@ -1,5 +1,7 @@
 // js/components/location.js
 
+let locationInitialized = false;
+
 export function initLocation() {
   const globalLocationBtns = document.querySelectorAll('.global-location-btn');
   const locationModal = document.getElementById('location-modal');
@@ -13,6 +15,8 @@ export function initLocation() {
   updateLocationUI(savedLocation);
 
   if (!locationModal) return;
+  if (locationInitialized) return;
+  locationInitialized = true;
 
   // Open modal
   globalLocationBtns.forEach(btn => {
@@ -32,6 +36,13 @@ export function initLocation() {
   // Close on outside click
   locationModal.addEventListener('click', (e) => {
     if (e.target === locationModal) {
+      closeModal();
+    }
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !locationModal.classList.contains('hidden')) {
       closeModal();
     }
   });
@@ -98,22 +109,47 @@ export function initLocation() {
     });
   }
 
+  let openRafId = null;
+
   function openModal() {
+    if (window.authUI?.closeAllAuthModals) {
+      window.authUI.closeAllAuthModals();
+    }
+    if (locationModal.classList.contains('visible') && !locationModal.classList.contains('hidden')) {
+      return;
+    }
+    if (openRafId) {
+      cancelAnimationFrame(openRafId);
+      openRafId = null;
+    }
     locationModal.classList.remove('hidden');
-    // small delay for css animation
-    setTimeout(() => {
+    if (document.hidden) {
       locationModal.classList.add('visible');
-    }, 10);
-    document.body.style.overflow = 'hidden';
+    } else {
+      openRafId = requestAnimationFrame(() => {
+        locationModal.classList.add('visible');
+        openRafId = null;
+      });
+    }
+    if (document.body) {
+      document.body.style.overflow = 'hidden';
+    }
   }
 
   function closeModal() {
+    if (openRafId) {
+      cancelAnimationFrame(openRafId);
+      openRafId = null;
+    }
     locationModal.classList.remove('visible');
-    setTimeout(() => {
-      locationModal.classList.add('hidden');
-    }, 300); // match css transition
-    document.body.style.overflow = '';
+    locationModal.classList.add('hidden');
+    const mobileMenu = document.querySelector('.mobile-menu.open');
+    if (!mobileMenu && document.body) {
+      document.body.style.overflow = '';
+    }
   }
+
+  window.locationUI = { openModal, closeModal };
 
   function saveLocation(location) {
     localStorage.setItem('user-location', location);

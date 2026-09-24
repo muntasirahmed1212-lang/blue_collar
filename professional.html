@@ -27,6 +27,8 @@
   <link rel="stylesheet" href="./css/global.css">
   <link rel="stylesheet" href="./css/transitions.css">
   <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/auth.css">
+  <link rel="stylesheet" href="./css/scroll-animations.css">
   <link rel="stylesheet" href="./css/header.css">
   <link rel="stylesheet" href="./css/footer.css">
   <link rel="stylesheet" href="./css/professional.css">
@@ -88,18 +90,43 @@
     </div>
     
     <div class="mobile-menu">
-      <!-- Mobile menu injected via JS in real app, hardcoded here for mock -->
       <nav class="mobile-nav-links">
         <a href="./index.html" class="nav-link">Home</a>
         <a href="./services.html" class="nav-link active">Services</a>
         <a href="/how-it-works.html" class="nav-link">How It Works</a>
+        <a href="./services.html?verified=true" class="nav-link">Verified Pros</a>
       </nav>
+      <div class="mobile-actions">
+        
+        <button class="btn btn-outline global-location-btn" style="width: 100%; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <i data-lucide="map-pin"></i> <span class="location-text">Set Location</span>
+        </button>
+
+        <div class="theme-dropdown-container" style="width: 100%; margin-bottom: 12px;">
+          <button class="theme-toggle mobile-theme-toggle" aria-label="Toggle theme" aria-haspopup="true" aria-expanded="false" style="width: 100%; display: flex; align-items: center; justify-content: center; padding: 12px; background: transparent; border: 1px solid var(--border-default); border-radius: var(--radius-md); color: var(--text-primary);">
+            <i data-lucide="monitor"></i> <span style="margin-left: 8px;">Theme Settings</span>
+          </button>
+          <div class="theme-dropdown-menu mobile-dropdown">
+            <button class="theme-option" data-theme-value="light">
+              <i data-lucide="sun"></i> Light
+            </button>
+            <button class="theme-option" data-theme-value="dark">
+              <i data-lucide="moon"></i> Dark
+            </button>
+            <button class="theme-option" data-theme-value="system">
+              <i data-lucide="monitor"></i> System
+            </button>
+          </div>
+        </div>
+        <button class="btn btn-outline" style="width: 100%">Login</button>
+        <button class="btn btn-primary" style="width: 100%">Post a Job</button>
+      </div>
     </div>
   </header>
 
   <main id="main-content" class="page-top-padding">
     <div class="container py-8">
-      <div class="breadcrumb mb-6">
+      <div class="breadcrumb mb-6" data-animate="fade-up">
         <a href="./index.html">Home</a> <i data-lucide="chevron-right" class="icon-sm mx-1"></i>
         <a href="./services.html">Services</a> <i data-lucide="chevron-right" class="icon-sm mx-1"></i>
         <a href="#" id="breadcrumb-cat">Category</a> <i data-lucide="chevron-right" class="icon-sm mx-1"></i>
@@ -110,7 +137,7 @@
         <!-- Main Profile Details -->
         <div class="profile-main">
           
-          <div class="profile-header glass-panel">
+          <div class="profile-header glass-panel" data-animate="fade-up">
             <div class="profile-header-content">
               <img src="https://i.pravatar.cc/150" alt="Pro" id="pro-photo" class="profile-avatar" loading="lazy">
               <div class="profile-info">
@@ -129,15 +156,15 @@
             </div>
 
             <div class="profile-stats">
-              <div class="stat-box">
+              <div class="stat-box" data-animate="fade-up">
                 <div class="stat-value text-xl font-bold" id="pro-jobs">--</div>
                 <div class="stat-label text-sm text-secondary">Jobs Done</div>
               </div>
-              <div class="stat-box">
+              <div class="stat-box" data-animate="fade-up">
                 <div class="stat-value text-xl font-bold" id="pro-exp">--</div>
                 <div class="stat-label text-sm text-secondary">Years Exp.</div>
               </div>
-              <div class="stat-box">
+              <div class="stat-box" data-animate="fade-up">
                 <div class="stat-value text-xl font-bold">₹<span id="pro-rate">--</span></div>
                 <div class="stat-label text-sm text-secondary">Per Hour</div>
               </div>
@@ -145,12 +172,12 @@
           </div>
 
           <div class="profile-section">
-            <h3 class="mb-4">About the Professional</h3>
+            <h3 class="mb-4" data-char-reveal>About the Professional</h3>
             <p id="pro-bio" class="text-secondary leading-relaxed skeleton">Loading biography...</p>
           </div>
 
           <div class="profile-section">
-            <h3 class="mb-4">Skills & Expertise</h3>
+            <h3 class="mb-4" data-char-reveal>Skills & Expertise</h3>
             <div id="pro-skills" class="skills-grid skeleton">
               <div class="skill-chip">Loading skill...</div>
               <div class="skill-chip">Loading skill...</div>
@@ -158,7 +185,7 @@
           </div>
 
           <div class="profile-section" id="gallery-section">
-            <h3 class="mb-4">Past Work</h3>
+            <h3 class="mb-4" data-char-reveal>Past Work</h3>
             <div id="pro-gallery" class="gallery-grid">
               <!-- Populated by JS -->
             </div>
@@ -176,7 +203,7 @@
 
         <!-- Sticky Sidebar for Booking -->
         <aside class="profile-sidebar">
-          <div class="booking-card glass-panel sticky-top">
+          <div class="booking-card glass-panel sticky-top" data-animate="fade-up">
             <div class="booking-price mb-6">
               <div class="text-sm text-secondary">Starting from</div>
               <div class="text-3xl font-bold">₹<span id="sidebar-rate">--</span><span class="text-base text-secondary font-normal"> / hour</span></div>

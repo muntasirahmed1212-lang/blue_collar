@@ -1,0 +1,82 @@
+/* css/scroll-animations.css - Native Scroll-Triggered Animation System */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* [data-animate="fade-up"] */
+  [data-animate="fade-up"] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  [data-animate="fade-up"].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* [data-animate="scale-up"] */
+  [data-animate="scale-up"] {
+    opacity: 0;
+    transform: scale(0.92);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  [data-animate="scale-up"].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* General [data-animate].is-visible transform resolution */
+  [data-animate].is-visible {
+    transform: none;
+  }
+
+  /* Character Reveal Animation */
+  [data-char-reveal] .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  [data-char-reveal].is-visible .char {
+    opacity: 1;
+    transform: none;
+  }
+
+  .char-word {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .char-reveal-wrapper {
+    display: inline-block;
+  }
+
+  /* Sticky elements must never retain transform containing block */
+  .sidebar-filters.is-visible,
+  .booking-card.is-visible,
+  .sticky-top.is-visible,
+  [data-animate].sidebar-filters.is-visible,
+  [data-animate].booking-card.is-visible,
+  [data-animate].sticky-top.is-visible {
+    transform: none !important;
+  }
+}
+
+/* Reduced Motion Fallback */
+@media (prefers-reduced-motion: reduce) {
+  [data-animate],
+  [data-char-reveal] .char {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .char-word,
+  .char-reveal-wrapper {
+    display: inline;
+  }
+}

@@ -27,6 +27,8 @@
   <link rel="stylesheet" href="./css/global.css">
   <link rel="stylesheet" href="./css/transitions.css">
   <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/auth.css">
+  <link rel="stylesheet" href="./css/scroll-animations.css">
   <link rel="stylesheet" href="./css/header.css">
   <link rel="stylesheet" href="./css/footer.css">
   <link rel="stylesheet" href="./css/hero.css">
@@ -136,10 +138,10 @@
       </div>
       
       <div class="container hero-content text-center">
-        <h1 class="hero-title">Find Trusted <br><span class="text-primary">Professionals</span> Near You</h1>
-        <p class="hero-subtitle">Connect with skilled, verified experts for electrical, plumbing, home repair, and more.</p>
+        <h1 class="hero-title" data-char-reveal>Find Trusted <br><span class="text-primary">Professionals</span> Near You</h1>
+        <p class="hero-subtitle" data-animate="fade-up">Connect with skilled, verified experts for electrical, plumbing, home repair, and more.</p>
         
-        <div class="search-container glass-panel">
+        <div class="search-container glass-panel" data-animate="fade-up">
           <div class="search-input-group flex-1">
             <i data-lucide="search" class="text-muted"></i>
             <input type="text" id="service-search" placeholder="Find a service... (e.g. Electrician, Plumber)">
@@ -158,19 +160,19 @@
     <section class="stats-section bg-secondary py-8 border-y border-border">
       <div class="container">
         <div class="stats-grid">
-          <div class="stat-item text-center">
+          <div class="stat-item text-center" data-animate="fade-up">
             <h3 class="stat-number text-3xl font-bold mb-2">500+</h3>
             <p class="stat-label text-sm text-secondary">Verified Professionals</p>
           </div>
-          <div class="stat-item text-center">
+          <div class="stat-item text-center" data-animate="fade-up">
             <h3 class="stat-number text-3xl font-bold mb-2">10K+</h3>
             <p class="stat-label text-sm text-secondary">Jobs Completed</p>
           </div>
-          <div class="stat-item text-center">
+          <div class="stat-item text-center" data-animate="fade-up">
             <h3 class="stat-number text-3xl font-bold mb-2">4.8<i data-lucide="star" class="icon-sm text-amber inline-block ml-1"></i></h3>
             <p class="stat-label text-sm text-secondary">Average Rating</p>
           </div>
-          <div class="stat-item text-center">
+          <div class="stat-item text-center" data-animate="fade-up">
             <h3 class="stat-number text-3xl font-bold mb-2">12</h3>
             <p class="stat-label text-sm text-secondary">Service Categories</p>
           </div>
@@ -179,7 +181,7 @@
     </section>
 
     <!-- Trust Bar -->
-    <section class="trust-bar">
+    <section class="trust-bar" data-animate="fade-up">
       <div class="container">
         <div class="trust-items">
           <span class="trust-item"><i data-lucide="shield-check" class="text-emerald"></i> Background Verified</span>
@@ -194,7 +196,7 @@
     <section class="section categories-section">
       <div class="container">
         <div class="section-header flex justify-between items-center mb-10">
-          <h2 class="section-title">Service Categories</h2>
+          <h2 class="section-title" data-char-reveal>Service Categories</h2>
           <a href="./services.html" class="btn btn-ghost">View All <i data-lucide="chevron-right" class="icon-sm"></i></a>
         </div>
         
@@ -208,7 +210,7 @@
     <section class="section featured-pros-section" style="background-color: var(--surface-secondary)">
       <div class="container">
         <div class="section-header flex justify-between items-center mb-10">
-          <h2 class="section-title">Featured Professionals</h2>
+          <h2 class="section-title" data-char-reveal>Featured Professionals</h2>
         </div>
         
         <div class="featured-pros-grid" id="featured-pros-grid">
@@ -220,8 +222,8 @@
     <!-- CTA Section -->
     <section class="section cta-section text-center">
       <div class="container">
-        <div class="cta-card glass-panel">
-          <h2 class="mb-4">Are you a professional?</h2>
+        <div class="cta-card glass-panel" data-animate="scale-up">
+          <h2 class="mb-4" data-char-reveal>Are you a professional?</h2>
           <p class="mb-8 text-secondary max-w-2xl mx-auto">Join BlueCollar Connect to reach more customers, manage your bookings easily, and grow your business.</p>
           <button class="btn btn-primary btn-lg">Register as a Pro</button>
         </div>

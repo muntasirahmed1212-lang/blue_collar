@@ -7,10 +7,13 @@ import { initScrollAnimations, initPageTransitions } from './utils/animations.js
 import { initThemeToggle } from './utils/theme.js';
 import { initLocation } from './components/location.js';
 
+import { initAuth } from './components/authUI.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize Global UI Components
   initPageTransitions();
   initThemeToggle();
+  initAuth();
   initHeader();
   initLocation();
   renderFooter();
