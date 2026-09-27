@@ -20,21 +20,43 @@ app.use(helmet({
   contentSecurityPolicy: false  // Allow inline scripts in your existing HTML
 }));
 
-// ─── CORS ──────────────────────────────────────
-app.set('trust proxy', 1);
+// ─── CORS & Trust Proxy ────────────────────────
+// In 3-tier Vercel -> Render proxying, requests pass through 2 reverse proxies (Render LB + Vercel Edge).
+// Trusting 2 hops ensures req.ip resolves to the end-user client IP instead of Vercel's edge IP,
+// preventing shared global rate-limit throttling across all frontend users.
+const trustProxyHops = process.env.TRUST_PROXY
+  ? (isNaN(process.env.TRUST_PROXY) ? process.env.TRUST_PROXY : parseInt(process.env.TRUST_PROXY, 10))
+  : (process.env.NODE_ENV === 'production' ? 2 : 1);
+app.set('trust proxy', trustProxyHops);
+
+const frontendUrls = (process.env.FRONTEND_URL || '')
+  .split(',')
+  .map(url => url.trim().replace(/^["']|["']$/g, '').trim().replace(/\/+$/, ''))
+  .filter(Boolean);
 
 const allowedOrigins = [
-  process.env.FRONTEND_URL,
+  ...frontendUrls,
   'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'http://localhost:5500',
   'http://127.0.0.1:5500'
 ];
 
+const allowedOriginsLower = allowedOrigins.map(url => url.toLowerCase());
+
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin) return callback(null, true);
+    const normalizedOrigin = origin.trim().replace(/\/+$/, '');
+    const normalizedOriginLower = normalizedOrigin.toLowerCase();
+    if (
+      allowedOrigins.includes(origin) ||
+      allowedOrigins.includes(normalizedOrigin) ||
+      allowedOriginsLower.includes(normalizedOriginLower)
+    ) {
       return callback(null, true);
     }
-    return callback(new Error('Blocked by CORS policy'));
+    return callback(null, false);
   },
   credentials: true,
 }));
@@ -44,9 +66,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ─── Session ───────────────────────────────────
+const sessionPool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
+});
+sessionPool.on('error', (err) => {
+  console.error('Unexpected error on idle pgSession client:', err.message);
+});
+
 app.use(session({
   store: new pgSession({
-    pool: new Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } }),
+    pool: sessionPool,
     tableName: 'session'
   }),
   secret: process.env.SESSION_SECRET || 'fallback_secret_key',
@@ -73,11 +103,25 @@ app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobRoutes);
 
 // ─── Serve Static Files (your existing site) ──
-app.use(express.static(path.join(__dirname, '.')));
+if (process.env.NODE_ENV !== 'production') {
+  app.use(express.static(path.join(__dirname, '.')));
 
-// ─── Fallback to index.html ────────────────────
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  // ─── Fallback to index.html ────────────────────
+  app.use((req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+  });
+}
+
+// ─── Global Error Handler ──────────────────────
+app.use((err, req, res, next) => {
+  console.error('Unhandled server error:', err);
+  if (res.headersSent) {
+    return next(err);
+  }
+  return res.status(err.status || err.statusCode || 500).json({
+    success: false,
+    error: process.env.NODE_ENV === 'production' ? 'Internal server error' : (err.message || 'Internal server error')
+  });
 });
 
 // ─── Start Server ──────────────────────────────

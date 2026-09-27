@@ -69,3 +69,44 @@ All existing functionality must remain intact: authentication flow (register, lo
 ### Verification Test Suite
 - [ ] An automated test script exists that programmatically verifies at least: job creation, job listing, auth-gated access, and regression checks on existing auth endpoints
 - [ ] Tests can be run with a single command (e.g. `node tests/verify-jobs.js`)
+
+## 2026-09-27T18:45:16Z
+
+# Teamwork Project Prompt — Draft
+
+> Status: Ready for launch — awaiting user approval
+> Goal: Craft prompt → get user approval → delegate to teamwork_preview
+> Requested team: Small, focused team
+
+This is a single self-contained configuration change; keep it small and focused. 
+
+Configure the BlueCollar Connect repository for a 3-tier deployment architecture (Frontend on Vercel, Backend API on Render, Database on Neon) using Vercel rewrites to proxy API requests.
+
+Working directory: c:\Users\munta\Downloads\blue_collar
+Integrity mode: development
+
+## Requirements
+
+### R1. Configure Vercel Proxy Rewrites
+Modify `vercel.json` to act as a reverse proxy. It must route all `/api/*` requests to a placeholder Render URL (e.g., `https://YOUR-APP.onrender.com/api/:path*`). Ensure `Cache-Control: no-store` headers are set for `/api/*` routes.
+
+### R2. Isolate Backend API for Render
+Modify `render.yaml` to ensure it starts the Node.js backend (`npm start` or `node server.js`). Add `FRONTEND_URL` to the `envVars` list with `sync: false`.
+
+### R3. Disable Production Static Serving
+Modify `server.js` so that `express.static` and the fallback `index.html` serving are ONLY active in local development (i.e., `if (process.env.NODE_ENV !== 'production')`). The backend must not serve static files in production.
+
+### R4. Clean Up Deprecated Functions
+Delete the `api/auth.js` file, as the Vercel Serverless Function approach is being replaced by the proxy approach.
+
+### R5. Forbidden Files
+Do NOT modify `js/services/authService.js` or `js/components/authUI.js`. The proxy handles the relative URLs automatically.
+
+## Acceptance Criteria
+
+### Configuration Correctness
+- [ ] `vercel.json` contains a rewrite rule matching `/api/:path*` to the Render URL.
+- [ ] `render.yaml` exists and contains the necessary startup commands and environment variables placeholders (with `sync: false` for secrets).
+- [ ] `server.js` wraps `app.use(express.static(...))` in a development-only environment check.
+- [ ] `api/auth.js` no longer exists in the project.
+- [ ] `authService.js` and `authUI.js` remain completely unmodified.

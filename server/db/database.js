@@ -7,6 +7,10 @@ const pool = new Pool({
   max: 5
 });
 
+pool.on('error', (err) => {
+  console.error('Unexpected error on idle database client:', err.message);
+});
+
 async function readUsers() {
   const res = await pool.query('SELECT * FROM users');
   return res.rows.map(mapUser);
@@ -172,6 +176,7 @@ function mapJob(row) {
 }
 
 module.exports = {
+  pool,
   findUserByEmail,
   createUser,
   updateUser,

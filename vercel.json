@@ -3,7 +3,18 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://blue-collar-connect.onrender.com/api/:path*"
+      "destination": "https://YOUR-APP.onrender.com/api/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
     }
   ]
 }
