@@ -21,7 +21,10 @@ app.use(helmet({
 }));
 
 // ─── CORS ──────────────────────────────────────
+app.set('trust proxy', 1);
+
 const allowedOrigins = [
+  process.env.FRONTEND_URL,
   'http://localhost:3000',
   'http://127.0.0.1:5500'
 ];
@@ -50,7 +53,8 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false,         // Set true in production with HTTPS
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000  // 24 hours
   }

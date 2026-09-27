@@ -1,14 +1,9 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/api/auth/(.*)", "destination": "/api/auth" }
-  ],
-  "headers": [
     {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store" }
-      ]
+      "source": "/api/:path*",
+      "destination": "https://blue-collar-connect.onrender.com/api/:path*"
     }
   ]
 }
