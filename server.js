@@ -2,12 +2,15 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
+const pgSession = require('connect-pg-simple')(session);
+const { Pool } = require('pg');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 const cors = require('cors');
 
 const authRoutes = require('./server/routes/auth');
+const jobRoutes = require('./server/routes/jobs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -39,6 +42,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // ─── Session ───────────────────────────────────
 app.use(session({
+  store: new pgSession({
+    pool: new Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } }),
+    tableName: 'session'
+  }),
   secret: process.env.SESSION_SECRET || 'fallback_secret_key',
   resave: false,
   saveUninitialized: false,
@@ -59,6 +66,7 @@ app.use('/api/', globalLimiter);
 
 // ─── API Routes ────────────────────────────────
 app.use('/api/auth', authRoutes);
+app.use('/api/jobs', jobRoutes);
 
 // ─── Serve Static Files (your existing site) ──
 app.use(express.static(path.join(__dirname, '.')));

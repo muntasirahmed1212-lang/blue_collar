@@ -3,6 +3,7 @@ import { initHeader } from './components/header.js';
 import { renderFooter } from './components/footer.js';
 import { initGlobalSearch } from './components/searchBar.js';
 import { initModals } from './components/modal.js';
+import { initJobModal } from './components/jobModal.js';
 import { initScrollAnimations, initPageTransitions } from './utils/animations.js';
 import { initThemeToggle } from './utils/theme.js';
 import { initLocation } from './components/location.js';
@@ -19,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderFooter();
   initGlobalSearch();
   initModals();
+  initJobModal();
   initScrollAnimations();
   
   // 2. Routing (Pseudo-routing based on path)
@@ -36,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
     import('./pages/category.js').then(module => module.initCategory());
   } else if (path.includes('professional.html')) {
     import('./pages/professional.js').then(module => module.initProfessional());
+  } else if (path.includes('jobs.html')) {
+    import('./pages/jobs.js').then(module => module.initJobs());
   }
   
   // Render static icons

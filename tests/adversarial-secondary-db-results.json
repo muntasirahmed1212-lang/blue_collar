@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-24T17:20:00.764Z",
+  "timestamp": "2026-09-25T19:27:12.503Z",
   "passed": 54,
   "failed": 0,
   "challenges": [
@@ -28,7 +28,7 @@
     "  [PASS] 2.1 Input validation for missing email: whitespace only email: \"   \"",
     "  [PASS] 2.2 Anti-enumeration oracle for non-existent email [nobody_exists_12345@domain.org]",
     "  [PASS] 2.2 Anti-enumeration oracle for non-existent email [ghost.account.999@phantom.io]",
-    "  [PASS] 2.2 Anti-enumeration oracle for non-existent email [attacker_probe_random_3o4woiwrbbw@nowhere.net]",
+    "  [PASS] 2.2 Anti-enumeration oracle for non-existent email [attacker_probe_random_w5las22p2r8@nowhere.net]",
     "  [PASS] 2.2 Anti-enumeration oracle for non-existent email [fake.admin@company.com]",
     "  [PASS] 2.3 Existing user receives OTP with purpose=\"password-reset\"",
     "  [PASS] 2.4 Case-insensitive email resolution in forgotPassword (UPPERCASE lookup)",

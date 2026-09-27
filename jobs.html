@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    (function(){
+      const t = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme:light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="Browse open blue-collar job requests. Connect with local customers needing electrical, plumbing, carpentry, cleaning, and renovation services.">
+  <meta name="keywords" content="open jobs, contractor jobs, electrician jobs, plumber jobs, carpenter jobs, handyman leads, BlueCollar Connect">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+
+  <title>Browse Open Jobs | BlueCollar Connect</title>
+  
+  <!-- Performance Preconnects -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/variables.css">
+  <link rel="stylesheet" href="./css/global.css">
+  <link rel="stylesheet" href="./css/transitions.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/auth.css">
+  <link rel="stylesheet" href="./css/scroll-animations.css">
+  <link rel="stylesheet" href="./css/header.css">
+  <link rel="stylesheet" href="./css/footer.css">
+  <link rel="stylesheet" href="./css/jobs.css">
+
+  <!-- Icons (Lucide) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="expect" href="#main-content" blocking="render">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container header-container">
+      <a href="./index.html" class="logo-container">
+        <i data-lucide="wrench"></i>
+        <div class="logo-text">
+          <span>BlueCollar</span>
+          <span class="logo-text-primary">Connect</span>
+        </div>
+      </a>
+      
+      <nav class="nav-desktop">
+        <div class="nav-links">
+          <a href="./index.html" class="nav-link">Home</a>
+          <a href="./services.html" class="nav-link">Services</a>
+          <a href="./jobs.html" class="nav-link active">Jobs</a>
+          <a href="/how-it-works.html" class="nav-link">How It Works</a>
+          <a href="./services.html?verified=true" class="nav-link">Verified Pros</a>
+        </div>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn btn-ghost global-location-btn" title="Set Location" style="padding: var(--spacing-2) var(--spacing-3);">
+          <i data-lucide="map-pin"></i>
+          <span class="location-text" style="font-weight: 500;">Set Location</span>
+        </button>
+
+        <div class="theme-dropdown-container">
+          <button class="theme-toggle" aria-label="Toggle theme" aria-haspopup="true" aria-expanded="false" title="Theme Settings">
+            <i data-lucide="monitor"></i>
+          </button>
+          <div class="theme-dropdown-menu">
+            <button class="theme-option" data-theme-value="light">
+              <i data-lucide="sun"></i> Light
+            </button>
+            <button class="theme-option" data-theme-value="dark">
+              <i data-lucide="moon"></i> Dark
+            </button>
+            <button class="theme-option" data-theme-value="system">
+              <i data-lucide="monitor"></i> System
+            </button>
+          </div>
+        </div>
+        <button class="btn btn-ghost">Login</button>
+        <button class="btn btn-primary">Post a Job</button>
+      </div>
+
+      <button class="mobile-menu-btn" aria-label="Toggle menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="mobile-menu">
+      <nav class="mobile-nav-links">
+        <a href="./index.html" class="nav-link">Home</a>
+        <a href="./services.html" class="nav-link">Services</a>
+        <a href="./jobs.html" class="nav-link mobile-nav-link active">Jobs</a>
+        <a href="/how-it-works.html" class="nav-link">How It Works</a>
+        <a href="./services.html?verified=true" class="nav-link">Verified Pros</a>
+      </nav>
+      <div class="mobile-actions">
+        <button class="btn btn-outline global-location-btn" style="width: 100%; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <i data-lucide="map-pin"></i> <span class="location-text">Set Location</span>
+        </button>
+
+        <div class="theme-dropdown-container" style="width: 100%; margin-bottom: 12px;">
+          <button class="theme-toggle mobile-theme-toggle" aria-label="Toggle theme" aria-haspopup="true" aria-expanded="false" style="width: 100%; display: flex; align-items: center; justify-content: center; padding: 12px; background: transparent; border: 1px solid var(--border-default); border-radius: var(--radius-md); color: var(--text-primary);">
+            <i data-lucide="monitor"></i> <span style="margin-left: 8px;">Theme Settings</span>
+          </button>
+          <div class="theme-dropdown-menu mobile-dropdown">
+            <button class="theme-option" data-theme-value="light">
+              <i data-lucide="sun"></i> Light
+            </button>
+            <button class="theme-option" data-theme-value="dark">
+              <i data-lucide="moon"></i> Dark
+            </button>
+            <button class="theme-option" data-theme-value="system">
+              <i data-lucide="monitor"></i> System
+            </button>
+          </div>
+        </div>
+        <button class="btn btn-outline" style="width: 100%">Login</button>
+        <button class="btn btn-primary" style="width: 100%">Post a Job</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="page-top-padding">
+    
+    <!-- Hero / Breadcrumb Section -->
+    <div class="jobs-hero">
+      <div class="container">
+        <div class="breadcrumb mb-4" data-animate="fade-up">
+          <a href="./index.html">Home</a> 
+          <i data-lucide="chevron-right" class="icon-sm mx-1"></i>
+          <span id="breadcrumb-current" class="text-primary">Open Jobs</span>
+        </div>
+        
+        <div class="flex items-center gap-4 mb-2" data-animate="fade-up">
+          <div class="jobs-hero-icon text-primary">
+            <i data-lucide="briefcase"></i>
+          </div>
+          <h1>Browse Open Jobs</h1>
+        </div>
+        <p class="text-secondary max-w-2xl mb-6" data-animate="fade-up">
+          Connect directly with verified local customers. Explore open project requests across 12 trades, review requirements, and submit competitive proposals.
+        </p>
+      </div>
+    </div>
+
+    <!-- Main Listing Section -->
+    <section class="section pt-8">
+      <div class="container layout-with-sidebar">
+        
+        <!-- Sidebar Filters -->
+        <aside class="sidebar-filters glass-panel" data-animate="fade-up">
+          <div class="filter-header mb-6 flex justify-between items-center">
+            <h3 class="font-bold flex items-center gap-2">
+              <i data-lucide="sliders-horizontal" class="icon-sm text-primary"></i>
+              Filters
+            </h3>
+            <button id="reset-filters" class="btn btn-ghost" style="padding: 0; font-size: var(--text-sm);" type="button">Reset</button>
+          </div>
+
+          <!-- 1. Location Search Filter -->
+          <div class="filter-group">
+            <h4 class="filter-title">Location</h4>
+            <div class="filter-search-box">
+              <i data-lucide="map-pin" class="icon-sm text-muted"></i>
+              <input 
+                type="text" 
+                id="filter-location" 
+                placeholder="Filter by city or area..." 
+                class="input-field filter-input-field" 
+                autocomplete="off"
+              >
+            </div>
+          </div>
+
+          <!-- 2. Category Filter (Select + Checkbox list) -->
+          <div class="filter-group">
+            <div class="flex justify-between items-center mb-2">
+              <h4 class="filter-title mb-0">Category</h4>
+              <span class="text-xs text-muted" id="category-filter-count">12 Trades</span>
+            </div>
+
+            <!-- Compact Select Dropdown (Active for fast single selection) -->
+            <div class="category-select-wrapper mb-3">
+              <select id="filter-category" class="input-field">
+                <option value="all" selected>All Categories (12)</option>
+                <option value="cat-1">Electrician</option>
+                <option value="cat-2">Plumber</option>
+                <option value="cat-3">Carpenter</option>
+                <option value="cat-4">Painter</option>
+                <option value="cat-5">Constructor</option>
+                <option value="cat-6">AC Repair</option>
+                <option value="cat-7">Cleaning</option>
+                <option value="cat-8">Pest Control</option>
+                <option value="cat-9">Appliance Repair</option>
+                <option value="cat-10">Locksmith</option>
+                <option value="cat-11">CCTV & Security</option>
+                <option value="cat-12">Gardening</option>
+              </select>
+            </div>
+
+            <!-- Scrollable Checkbox List -->
+            <div class="category-checkbox-container">
+              <div class="checkbox-list category-scroll-list" id="category-checkbox-list">
+                <label class="checkbox-label">
+                  <input type="checkbox" class="category-checkbox" name="category" value="all" checked>
+                  <span>All Categories</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="category-checkbox" name="category" value="cat-1">
+                  <span>Electrician</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="category-checkbox" name="category" value="cat-2">
+                  <span>Plumber</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="category-checkbox" name="category" value="cat-3">
+                  <span>Carpenter</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="category-checkbox" name="category" value="cat-4">
+                  <span>Painter</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="category-checkbox" name="category" value="cat-5">
+                  <span>Constructor</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="category-checkbox" name="category" value="cat-6">
+                  <span>AC Repair</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="category-checkbox" name="category" value="cat-7">
+                  <span>Cleaning</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="category-checkbox" name="category" value="cat-8">
+                  <span>Pest Control</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="category-checkbox" name="category" value="cat-9">
+                  <span>Appliance Repair</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="category-checkbox" name="category" value="cat-10">
+                  <span>Locksmith</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="category-checkbox" name="category" value="cat-11">
+                  <span>CCTV & Security</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="category-checkbox" name="category" value="cat-12">
+                  <span>Gardening</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Urgency Filter -->
+          <div class="filter-group">
+            <h4 class="filter-title">Urgency</h4>
+            
+            <div class="radio-list urgency-radio-list" id="urgency-radio-list">
+              <label class="radio-label">
+                <input type="radio" name="urgency" value="all" checked>
+                <span>All Levels</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="urgency" value="urgent">
+                <span class="urgency-dot dot-urgent"></span>
+                <span>Urgent (Emergency)</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="urgency" value="high">
+                <span class="urgency-dot dot-high"></span>
+                <span>High (&lt; 24 hrs)</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="urgency" value="medium">
+                <span class="urgency-dot dot-medium"></span>
+                <span>Medium (2–3 days)</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="urgency" value="low">
+                <span class="urgency-dot dot-low"></span>
+                <span>Low (Flexible)</span>
+              </label>
+            </div>
+          </div>
+
+          <button id="apply-filters-btn" class="btn btn-primary" style="width: 100%;">
+            <i data-lucide="filter" class="icon-sm"></i> Apply Filters
+          </button>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+          <!-- Results Header & Sort Controls -->
+          <div class="results-header flex justify-between items-center mb-6">
+            <div id="results-count" class="text-secondary font-medium">
+              Loading open jobs...
+            </div>
+            
+            <div class="sort-control flex items-center gap-2">
+              <span class="text-sm text-secondary">Sort by:</span>
+              <select id="sort-select" class="input-field sort-select-input">
+                <option value="newest" selected>Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="budget-desc">Budget: High to Low</option>
+                <option value="budget-asc">Budget: Low to High</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Job Cards Grid -->
+          <div class="jobs-grid" id="jobs-grid" aria-live="polite">
+            <!-- Dynamic Job Cards injected by js/pages/jobs.js -->
+          </div>
+
+          <!-- Empty State -->
+          <div id="no-jobs-message" class="hidden text-center py-12 text-secondary glass-panel rounded-xl mt-4">
+            <div class="empty-state-icon-wrapper mb-4">
+              <i data-lucide="search-x" class="icon-xl text-muted mx-auto"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-2">No jobs found matching your criteria</h3>
+            <p class="text-secondary text-sm max-w-prose mx-auto mb-6">
+              There are currently no active job postings matching your selected filters. Try broadening your trade categories, changing urgency levels, or clearing search keywords.
+            </p>
+            <button class="btn btn-outline" id="clear-filters-btn">
+              <i data-lucide="rotate-ccw" class="icon-sm"></i> Clear All Filters
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer (Rendered dynamically by js/components/footer.js) -->
+  <footer></footer>
+
+  <!-- Scripts -->
+  <script type="module" src="./js/app.js"></script>
+
+  <!-- Location Modal -->
+  <div id="location-modal" class="modal-overlay hidden">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Set Your Location</h3>
+        <button class="modal-close" aria-label="Close location modal"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <button id="btn-use-current-location" class="btn btn-primary" style="width: 100%; margin-bottom: var(--spacing-4);">
+          <i data-lucide="crosshair"></i> Use My Current Location
+        </button>
+        <div style="text-align: center; margin-bottom: var(--spacing-4); color: var(--text-muted); font-size: var(--text-sm);">
+          — OR ENTER MANUALLY —
+        </div>
+        <div class="search-input-group" style="border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: var(--spacing-2); display: flex; align-items: center; gap: var(--spacing-2);">
+          <i data-lucide="map-pin" class="text-muted"></i>
+          <input type="text" id="manual-location-input" placeholder="Enter city, neighborhood, or zip..." style="border: none; background: transparent; outline: none; flex: 1; color: var(--text-primary); width: 100%;">
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: var(--spacing-2); margin-top: var(--spacing-6);">
+        <button class="btn btn-ghost modal-close-btn">Cancel</button>
+        <button id="btn-save-location" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Job Details Modal (Accessible View Modal) -->
+  <div id="job-details-modal" class="modal-overlay hidden" data-modal="job-details" aria-hidden="true" role="dialog" aria-labelledby="job-details-title">
+    <div class="modal-container glass-panel job-details-container" role="document">
+      <div class="modal-header">
+        <div class="modal-header-content">
+          <div id="job-details-category-badge" class="badge mb-2">Category</div>
+          <h3 id="job-details-title" class="modal-title">Job Details</h3>
+        </div>
+        <button type="button" class="modal-close" id="job-details-close-btn" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="modal-body job-details-body">
+        <div class="job-details-meta-bar mb-4">
+          <div class="details-meta-chip"><i data-lucide="map-pin"></i> <span id="job-details-location">Location</span></div>
+          <div class="details-meta-chip"><i data-lucide="wallet"></i> <span id="job-details-budget">Budget</span></div>
+          <div class="details-meta-chip"><i data-lucide="alert-circle"></i> <span id="job-details-urgency">Urgency</span></div>
+          <div class="details-meta-chip"><i data-lucide="calendar"></i> <span id="job-details-date">Date</span></div>
+        </div>
+        <div class="mb-4">
+          <h4 class="text-sm text-secondary font-semibold uppercase tracking-wider mb-2">Description</h4>
+          <p id="job-details-description" class="text-primary leading-relaxed"></p>
+        </div>
+        <div class="job-details-customer-card glass-panel p-4 rounded-lg mb-4">
+          <div class="flex items-center gap-3">
+            <div class="customer-avatar-box">
+              <i data-lucide="user" class="icon-md text-primary"></i>
+            </div>
+            <div>
+              <div class="text-xs text-muted">Posted by Customer</div>
+              <div id="job-details-customer" class="font-bold text-primary">Customer Name</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer job-details-footer">
+        <button type="button" class="btn btn-ghost modal-close-btn" id="job-details-back-btn">Close</button>
+        <button type="button" class="btn btn-primary" id="job-details-apply-btn">
+          <i data-lucide="send" class="icon-sm"></i> Apply for this Job
+        </button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

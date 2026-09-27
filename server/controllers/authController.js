@@ -34,13 +34,13 @@ exports.register = async (req, res) => {
     }
 
     const normalizedEmail = email.toLowerCase().trim();
-    const existingUser = db.findUserByEmail(normalizedEmail);
+    const existingUser = await db.findUserByEmail(normalizedEmail);
     if (existingUser) {
       if (existingUser.isVerified) {
         return res.status(400).json({ success: false, error: 'Email is already registered.' });
       }
       // If user exists and is unverified, prune stale record to allow re-registration
-      db.deleteUser(normalizedEmail);
+      await db.deleteUser(normalizedEmail);
     }
 
     // Generate OTP data and store in session
@@ -69,7 +69,7 @@ exports.register = async (req, res) => {
       updatedAt: new Date().toISOString()
     };
 
-    db.createUser(newUser);
+    await db.createUser(newUser);
 
     res.json({ success: true, message: 'OTP sent to your email.' });
   } catch (error) {
@@ -84,7 +84,7 @@ exports.sendOtp = async (req, res) => {
     if (!email || typeof email !== 'string' || !email.trim()) return res.status(400).json({ success: false, error: 'Email is required.' });
 
     const normalizedEmail = email.toLowerCase().trim();
-    const user = db.findUserByEmail(normalizedEmail);
+    const user = await db.findUserByEmail(normalizedEmail);
     if (!user && purpose === 'password-reset') {
        // Prevent email enumeration
        return res.json({ success: true, message: 'If the email exists, an OTP has been sent.' });
@@ -134,8 +134,8 @@ exports.verifyOtp = async (req, res) => {
 
     // OTP is valid
     if (sessionOtpData.purpose === 'verification') {
-      db.updateUser(normalizedEmail, { isVerified: true });
-      const user = db.findUserByEmail(normalizedEmail);
+      await db.updateUser(normalizedEmail, { isVerified: true });
+      const user = await db.findUserByEmail(normalizedEmail);
       req.session.userId = user.id; // Log them in
       delete req.session.otpData;
       return res.json({ success: true, message: 'Email verified successfully. You are now logged in.', user: { fullName: user.fullName, email: user.email, role: user.role } });
@@ -159,7 +159,7 @@ exports.login = async (req, res) => {
     }
 
     const normalizedEmail = email.toLowerCase().trim();
-    const user = db.findUserByEmail(normalizedEmail);
+    const user = await db.findUserByEmail(normalizedEmail);
     if (!user) return res.status(401).json({ success: false, error: 'Invalid email or password.' });
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -172,7 +172,7 @@ exports.login = async (req, res) => {
     // Auto-upgrade to admin if they match ADMIN_EMAILS but have customer role
     let currentRole = user.role;
     if (currentRole !== 'admin' && isAdminEmail(normalizedEmail)) {
-      db.updateUser(normalizedEmail, { role: 'admin' });
+      await db.updateUser(normalizedEmail, { role: 'admin' });
       currentRole = 'admin';
     }
 
@@ -214,7 +214,7 @@ exports.resetPassword = async (req, res) => {
 
     const normalizedEmail = email.toLowerCase().trim();
     const hashedPassword = await bcrypt.hash(password, 12);
-    db.updateUser(normalizedEmail, { password: hashedPassword });
+    await db.updateUser(normalizedEmail, { password: hashedPassword });
     
     delete req.session.otpData;
     res.json({ success: true, message: 'Password reset successfully.' });
@@ -229,21 +229,21 @@ exports.logout = (req, res) => {
   res.json({ success: true, message: 'Logged out successfully.' });
 };
 
-exports.getMe = (req, res) => {
+exports.getMe = async (req, res) => {
   if (!req.session || !req.session.userId) {
     return res.status(401).json({ success: false, error: 'Not authenticated' });
   }
 
-  const users = db.readUsers();
+  const users = await db.readUsers();
   const user = users.find(u => u.id === req.session.userId);
   if (!user) return res.status(401).json({ success: false, error: 'User not found' });
 
   res.json({ success: true, user: { fullName: user.fullName, email: user.email, role: user.role } });
 };
 
-exports.listUsers = (req, res) => {
+exports.listUsers = async (req, res) => {
   try {
-    const users = db.readUsers();
+    const users = await db.readUsers();
     const safeUsers = users.map(u => ({
       id: u.id,
       fullName: u.fullName,
