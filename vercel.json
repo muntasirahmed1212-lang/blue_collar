@@ -1,9 +1,12 @@
 {
   "version": 2,
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "framework": null,
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://blue-collar-connect-b0g5.onrender.com/api/:path*"
+      "destination": "https://blue-collar-connect-zovs.onrender.com/api/:path*"
     }
   ],
   "headers": [
