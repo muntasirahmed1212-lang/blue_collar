@@ -136,6 +136,9 @@ exports.verifyOtp = async (req, res) => {
     if (sessionOtpData.purpose === 'verification') {
       await db.updateUser(normalizedEmail, { isVerified: true });
       const user = await db.findUserByEmail(normalizedEmail);
+      if (!user) {
+        return res.status(404).json({ success: false, error: 'User not found' });
+      }
       req.session.userId = user.id; // Log them in
       delete req.session.otpData;
       return res.json({ success: true, message: 'Email verified successfully. You are now logged in.', user: { fullName: user.fullName, email: user.email, role: user.role } });
