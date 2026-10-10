@@ -1,5 +1,18 @@
 const nodemailer = require('nodemailer');
 
+/**
+ * Parses the IP family setting from environment variable.
+ * Accepts 4, 6, or 0 (as numbers or strings).
+ * Defaults to 4 (forcing IPv4) if unset or invalid, bypassing Render IPv6 limitations.
+ */
+function parseIpFamily(val) {
+  if (typeof val !== 'string' && typeof val !== 'number') return 4;
+  const parsed = parseInt(val, 10);
+  return [0, 4, 6].includes(parsed) && String(val).trim() === String(parsed) ? parsed : 4;
+}
+
+const smtpFamily = parseIpFamily(process.env.SMTP_IP_FAMILY);
+
 // Create reusable transporter
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
@@ -9,6 +22,7 @@ const transporter = nodemailer.createTransport({
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_APP_PASSWORD
   },
+  family: smtpFamily,
   connectionTimeout: 10000,
   socketTimeout: 10000
 });
@@ -41,4 +55,4 @@ async function sendOTPEmail(to, { userName, otpCode, purpose, expiryMinutes }) {
   return transporter.sendMail(mailOptions);
 }
 
-module.exports = { sendOTPEmail };
+module.exports = { sendOTPEmail, transporter, parseIpFamily };
