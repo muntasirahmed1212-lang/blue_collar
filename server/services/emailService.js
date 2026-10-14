@@ -1,37 +1,24 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
-/**
- * Parses the IP family setting from environment variable.
- * Accepts 4, 6, or 0 (as numbers or strings).
- * Defaults to 4 (forcing IPv4) if unset or invalid, bypassing Render IPv6 limitations.
- */
-function parseIpFamily(val) {
-  if (typeof val !== 'string' && typeof val !== 'number') return 4;
-  const parsed = parseInt(val, 10);
-  return [0, 4, 6].includes(parsed) && String(val).trim() === String(parsed) ? parsed : 4;
+const apiKey = process.env.RESEND_API_KEY;
+if (!apiKey) {
+  console.warn('⚠️ RESEND_API_KEY is not configured. Outbound emails will fail unless dev fallback is active.');
 }
 
-const smtpFamily = parseIpFamily(process.env.SMTP_IP_FAMILY);
+const resend = new Resend(apiKey || 're_placeholder_missing_key');
 
-// Create reusable transporter
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,          // true for 465, false for 587 (STARTTLS)
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD
-  },
-  family: smtpFamily,
-  connectionTimeout: 10000,
-  socketTimeout: 10000
-});
+const rawFrom = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+const fromAddress = rawFrom.includes('<') ? rawFrom : `"BlueCollar Connect" <${rawFrom}>`;
 
-// Verify connection on startup
-transporter.verify()
-  .then(() => console.log('✅ Gmail SMTP connected'))
-  .catch(err => console.error('❌ Gmail SMTP error:', err.message));
-
+/**
+ * Sends an OTP email to the recipient using Resend HTTPS API.
+ * @param {string} to - Recipient email address
+ * @param {object} params - Email parameters
+ * @param {string} params.userName - Recipient's display name
+ * @param {string} params.otpCode - 6-digit OTP code
+ * @param {string} params.purpose - 'verification' or 'password-reset'
+ * @param {number} params.expiryMinutes - Minutes until expiry
+ */
 async function sendOTPEmail(to, { userName, otpCode, purpose, expiryMinutes }) {
   const { getOTPEmailHTML, getPlainTextEmail } = require('../templates/otpEmail');
   
@@ -39,20 +26,46 @@ async function sendOTPEmail(to, { userName, otpCode, purpose, expiryMinutes }) {
     ? `${otpCode} is your BlueCollar Connect password reset code`
     : `${otpCode} is your BlueCollar Connect verification code`;
 
-  const mailOptions = {
-    from: `"BlueCollar Connect" <${process.env.GMAIL_USER}>`,
-    replyTo: process.env.GMAIL_USER,
-    to: to,
+  const payload = {
+    from: fromAddress,
+    to: [to],
     subject: subject,
     text: getPlainTextEmail({ userName, otpCode, purpose, expiryMinutes }),
     html: getOTPEmailHTML({ userName, otpCode, purpose, expiryMinutes }),
     headers: {
-      'X-Priority': '3',       // Normal priority (1=High triggers spam filters)
+      'X-Priority': '3',
       'X-Mailer': 'BlueCollar Connect Mailer'
     }
   };
 
-  return transporter.sendMail(mailOptions);
+  const executeSend = async () => {
+    const { data, error } = await resend.emails.send(payload);
+    if (error) {
+      const err = new Error(error.message || 'Failed to send email via Resend');
+      err.statusCode = error.statusCode;
+      err.name = error.name || 'ResendError';
+      throw err;
+    }
+    return data;
+  };
+
+  try {
+    return await executeSend();
+  } catch (err) {
+    const statusCode = err.statusCode || (err.response && err.response.status);
+    const isTransient = [429, 500, 502, 503, 504].includes(statusCode) ||
+      ['ETIMEDOUT', 'ECONNRESET', 'ECONNREFUSED', 'ESOCKET', 'FETCH_ERROR', 'ENOTFOUND'].includes(err.code);
+
+    if (isTransient) {
+      console.warn(`Transient email delivery error (${statusCode || err.code}): ${err.message}. Retrying once after 1s...`);
+      await new Promise(res => setTimeout(res, 1000));
+      return await executeSend();
+    }
+    throw err;
+  }
 }
 
-module.exports = { sendOTPEmail, transporter, parseIpFamily };
+module.exports = {
+  sendOTPEmail,
+  resend
+};

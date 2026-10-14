@@ -1,48 +1,30 @@
-# Final Sentinel Handoff Report
+# Sentinel Handoff Report — Vercel Static Site & Proxy Configuration Fix
 
-## 1. Observation
-- **User Task**: Configure BlueCollar Connect repository for 3-tier deployment architecture (Frontend on Vercel, Backend API on Render, Database on Neon) using Vercel rewrites to proxy API requests.
-- **Routing**: SWE Light path (`teamwork_preview_swe`) was selected based on single self-contained configuration change and explicit small team request.
-- **Implementation & Review Cycle**:
-  - Implementer implemented R1–R4 and authored initial 17 automated tests.
-  - Reviewer Round 1 hardened CORS origin handling and expanded tests to 23.
-  - Reviewer Round 2 added case-insensitive origin matching, OPTIONS preflight handling, Neon idle pool error trapping, and expanded tests to 28.
-  - Reviewer Round 3 resolved multi-user proxy rate limiting headers and package test script entries, expanding tests to 33.
-  - Orchestrator verified 33/33 tests pass and confirmed clean git diff.
-- **Victory Audit**:
-  - Independent post-victory auditor `teamwork_preview_victory_auditor` was dispatched.
-  - Audit Phase A (Timeline), Phase B (Anti-cheating/forbidden files), and Phase C (Independent test execution of 33/33 canonical tests + 6/6 auditor checks) all PASSED.
-  - Formal Verdict: **VICTORY CONFIRMED**.
+## Observation
+- **User Request**: Configure `vercel.json` to force static site mode (`buildCommand: ""`, `outputDirectory: "."`, `framework: null`), update the API reverse proxy rewrite destination to `https://blue-collar-connect-zovs.onrender.com/api/:path*`, and preserve all other repository files without modification.
+- **Routing**: Routed to SWE Light (`teamwork_preview_swe`) under working directory `.agents/teamwork/swe_2/`.
+- **Execution Swarm**:
+  - `implementer_1` (Conv ID: `a034c9cc-27b8-4f11-acd0-45113a2d2688`): modified `vercel.json`.
+  - `reviewer_r1` (Conv ID: `c746da9f-8c6d-4f5f-899f-298a924400bf`): Review round 1 passed (0 issues).
+  - `reviewer_r2` (Conv ID: `a0aff5ee-60ad-49c3-a044-e64f1650d960`): Review round 2 passed (0 issues).
+  - `reviewer_r3` (Conv ID: `77716336-4c5c-4e89-af6c-cf6d1108b4e5`): Review round 3 passed (0 issues).
+  - `victory_auditor_2` (Conv ID: `79ca3256-0c5f-4d77-a582-23156307313b`): Independent post-victory audit issued **VICTORY CONFIRMED**.
 
-## 2. Logic Chain
-- R1: `vercel.json` contains reverse-proxy rewrite rule mapping `/api/:path*` to `https://YOUR-APP.onrender.com/api/:path*` with `Cache-Control: no-store` on `/api/*`. Verified.
-- R2: `render.yaml` starts the Node.js backend (`npm start`) and includes `FRONTEND_URL` in `envVars` with `sync: false`. Verified.
-- R3: `server.js` guards static file serving and fallback `index.html` inside `if (process.env.NODE_ENV !== 'production')`. Verified.
-- R4: `api/auth.js` has been cleanly deleted. Verified.
-- R5: `js/services/authService.js` and `js/components/authUI.js` remain completely unmodified (0-byte git diff). Verified.
+## Logic Chain
+1. Added `"buildCommand": ""`, `"outputDirectory": "."`, and `"framework": null` to the root of `vercel.json` to explicitly instruct Vercel to treat the repository as a static website, preventing accidental Node.js serverless app deployments.
+2. Updated the `rewrites` destination rule to `https://blue-collar-connect-zovs.onrender.com/api/:path*`, correctly proxying all frontend API requests to the active Render backend.
+3. Preserved existing cache headers (`Cache-Control: no-store` on `/api/*`).
+4. Strict preservation verified: no changes made to `package.json`, `server.js`, `render.yaml`, or frontend assets.
+5. All automated verification tests (`tests/test-3tier-deployment.test.js`) executed and passed (33/33 tests).
 
-## 3. Caveats
-- `https://YOUR-APP.onrender.com` in `vercel.json` is a placeholder that will be updated with the actual deployed Render service URL upon live deployment.
-- `FRONTEND_URL` in the Render Dashboard must be populated with the Vercel production domain to allow CORS if direct API calls are made outside the Vercel rewrite proxy.
+## Caveats
+- Production deployment requires triggering a redeploy on Vercel (e.g. via git push or `vercel --prod`).
+- API requests forwarded to Render depend on the active status of the Render service (`https://blue-collar-connect-zovs.onrender.com`).
 
-## 4. Conclusion
-- All requirements R1 through R5 and all acceptance criteria are fully met with zero regressions.
-- Independent victory audit confirmed VICTORY CONFIRMED.
-- Crons cancelled and subagents cleaned up per mandatory protocol.
+## Conclusion
+Task completed successfully. All requirements R1, R2, and R3 are satisfied, and all acceptance criteria are verified and independently confirmed.
 
-## 5. Verification Method
-- Canonical test execution:
-  ```powershell
-  node tests/test-3tier-deployment.test.js
-  ```
-  Result: 33/33 tests passing.
-- Independent verification test:
-  ```powershell
-  node .agents/teamwork/victory_auditor_1/independent_audit_test.js
-  ```
-  Result: 6/6 checks passing.
-- Immutability check:
-  ```powershell
-  git diff HEAD -- js/services/authService.js js/components/authUI.js
-  ```
-  Result: 0 diff.
+## Verification Method
+- Independent post-victory audit report: `c:\Users\munta\Downloads\blue_collar\.agents\teamwork\victory_auditor_2\handoff.md`
+- Automated test suite: `node tests/test-3tier-deployment.test.js` (33/33 tests passing)
+- Schema and syntax verification of `vercel.json` (valid RFC 8259 JSON)

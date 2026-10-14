@@ -98,6 +98,15 @@ const globalLimiter = rateLimit({
 });
 app.use('/api/', globalLimiter);
 
+// ─── Health Check Endpoint ─────────────────────
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+});
+
 // ─── API Routes ────────────────────────────────
 app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobRoutes);

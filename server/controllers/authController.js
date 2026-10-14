@@ -1,5 +1,4 @@
 const bcrypt = require('bcryptjs');
-const { v4: uuidv4 } = require('crypto').randomUUID ? require('crypto') : { randomUUID: () => Math.random().toString(36).substring(2) + Date.now().toString(36) };
 const db = require('../db/database');
 const otpService = require('../services/otpService');
 const emailService = require('../services/emailService');
@@ -47,15 +46,27 @@ exports.register = async (req, res) => {
     const otpData = otpService.createOTPData(normalizedEmail, 'verification');
     req.session.otpData = otpData; // Store in session
 
-    // Attempt email delivery FIRST before database persistence
-    await emailService.sendOTPEmail(normalizedEmail, {
-      userName: fullName,
-      otpCode: otpData.code,
-      purpose: 'verification',
-      expiryMinutes: process.env.OTP_EXPIRY_MINUTES || 5
-    });
+    // Attempt email delivery before database persistence
+    try {
+      await emailService.sendOTPEmail(normalizedEmail, {
+        userName: fullName,
+        otpCode: otpData.code,
+        purpose: 'verification',
+        expiryMinutes: process.env.OTP_EXPIRY_MINUTES || 5
+      });
+    } catch (emailErr) {
+      console.error('Register email dispatch error:', emailErr.message);
+      // In development, or if fallback is enabled, log OTP to console so testing can proceed
+      if (process.env.NODE_ENV !== 'production' || process.env.ENABLE_DEV_OTP === 'true') {
+        console.log(`\n======================================================`);
+        console.log(`[DEV OTP FALLBACK] Verification code for ${normalizedEmail}: ${otpData.code}`);
+        console.log(`======================================================\n`);
+      } else {
+        throw emailErr;
+      }
+    }
 
-    // Only if email send succeeds: hash password and persist user
+    // Only if email send succeeds (or dev fallback active): hash password and persist user
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const newUser = {
@@ -73,8 +84,12 @@ exports.register = async (req, res) => {
 
     res.json({ success: true, message: 'OTP sent to your email.' });
   } catch (error) {
-    console.error('Register error:', error);
-    res.status(500).json({ success: false, error: 'Server error during registration.' });
+    console.error('Register error:', error.message || error);
+    res.status(500).json({
+      success: false,
+      error: 'Server error during registration.',
+      details: process.env.NODE_ENV !== 'production' ? (error.message || 'Internal error') : undefined
+    });
   }
 };
 
@@ -93,17 +108,32 @@ exports.sendOtp = async (req, res) => {
     const otpData = otpService.createOTPData(normalizedEmail, purpose || 'verification');
     req.session.otpData = otpData;
 
-    await emailService.sendOTPEmail(email, {
-      userName: user ? user.fullName : '',
-      otpCode: otpData.code,
-      purpose: purpose || 'verification',
-      expiryMinutes: process.env.OTP_EXPIRY_MINUTES || 5
-    });
+    try {
+      await emailService.sendOTPEmail(email, {
+        userName: user ? user.fullName : '',
+        otpCode: otpData.code,
+        purpose: purpose || 'verification',
+        expiryMinutes: process.env.OTP_EXPIRY_MINUTES || 5
+      });
+    } catch (emailErr) {
+      console.error('Send OTP email dispatch error:', emailErr.message);
+      if (process.env.NODE_ENV !== 'production' || process.env.ENABLE_DEV_OTP === 'true') {
+        console.log(`\n======================================================`);
+        console.log(`[DEV OTP FALLBACK] OTP code for ${normalizedEmail} (${purpose || 'verification'}): ${otpData.code}`);
+        console.log(`======================================================\n`);
+      } else {
+        throw emailErr;
+      }
+    }
 
     res.json({ success: true, message: 'OTP sent to your email.' });
   } catch (error) {
-    console.error('Send OTP error:', error);
-    res.status(500).json({ success: false, error: 'Server error sending OTP.' });
+    console.error('Send OTP error:', error.message || error);
+    res.status(500).json({
+      success: false,
+      error: 'Server error sending OTP.',
+      details: process.env.NODE_ENV !== 'production' ? (error.message || 'Internal error') : undefined
+    });
   }
 };
 

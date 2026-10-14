@@ -110,3 +110,42 @@ Do NOT modify `js/services/authService.js` or `js/components/authUI.js`. The pro
 - [ ] `server.js` wraps `app.use(express.static(...))` in a development-only environment check.
 - [ ] `api/auth.js` no longer exists in the project.
 - [ ] `authService.js` and `authUI.js` remain completely unmodified.
+
+## 2026-09-28T17:20:20Z
+
+# Teamwork Project Prompt — Draft
+
+> Status: Ready for launch — awaiting user approval
+> Goal: Craft prompt → get user approval → delegate to teamwork_preview
+> Requested team: Small, focused team
+
+This is a single self-contained configuration fix; keep it small and focused. 
+
+Fix the Vercel deployment configuration so that the API reverse proxy correctly routes to the Render backend, rather than Vercel incorrectly attempting to deploy the repository as a Node.js serverless app.
+
+Working directory: c:\Users\munta\Downloads\blue_collar
+Integrity mode: development
+
+## Requirements
+
+### R1. Force Vercel Static Site Mode
+Modify `vercel.json` to explicitly instruct Vercel to treat this as a static site. You must add the following directives to the root of the JSON object:
+- `"buildCommand": ""`
+- `"outputDirectory": "."`
+- `"framework": null`
+
+### R2. Correct the Render Proxy URL
+Ensure the `rewrites` destination in `vercel.json` exactly matches the active Render backend URL:
+`https://blue-collar-connect-zovs.onrender.com/api/:path*`
+
+### R3. Preservation
+Do not modify any other files in the repository. Do not change `package.json`, `server.js`, or any frontend code.
+
+## Acceptance Criteria
+
+### Configuration Correctness
+- [ ] `vercel.json` contains `"buildCommand": ""`
+- [ ] `vercel.json` contains `"outputDirectory": "."`
+- [ ] `vercel.json` contains `"framework": null`
+- [ ] The rewrite destination is exactly `https://blue-collar-connect-zovs.onrender.com/api/:path*`
+- [ ] `vercel.json` is valid JSON format.
