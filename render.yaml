@@ -21,3 +21,5 @@ services:
         sync: false
       - key: ADMIN_EMAILS
         sync: false
+      - key: ENABLE_DEV_OTP
+        value: "true"

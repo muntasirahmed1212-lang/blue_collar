@@ -46,6 +46,8 @@ exports.register = async (req, res) => {
     const otpData = otpService.createOTPData(normalizedEmail, 'verification');
     req.session.otpData = otpData; // Store in session
 
+    let devFallback = false;
+
     // Attempt email delivery before database persistence
     try {
       await emailService.sendOTPEmail(normalizedEmail, {
@@ -56,10 +58,17 @@ exports.register = async (req, res) => {
       });
     } catch (emailErr) {
       console.error('Register email dispatch error:', emailErr.message);
-      // In development, or if fallback is enabled, log OTP to console so testing can proceed
-      if (process.env.NODE_ENV !== 'production' || process.env.ENABLE_DEV_OTP === 'true') {
+      const isDomainRestriction = emailErr.statusCode === 403 ||
+        (emailErr.message && (emailErr.message.includes('verify a domain') || emailErr.message.includes('testing emails')));
+
+      // In development, if fallback is enabled, or if Resend blocks unverified recipient: log OTP so testing can proceed
+      if (process.env.NODE_ENV !== 'production' || process.env.ENABLE_DEV_OTP === 'true' || isDomainRestriction) {
+        devFallback = true;
         console.log(`\n======================================================`);
         console.log(`[DEV OTP FALLBACK] Verification code for ${normalizedEmail}: ${otpData.code}`);
+        if (isDomainRestriction) {
+          console.log(`[REASON] Resend unverified domain restriction (test sender only delivers to account owner).`);
+        }
         console.log(`======================================================\n`);
       } else {
         throw emailErr;
@@ -82,7 +91,11 @@ exports.register = async (req, res) => {
 
     await db.createUser(newUser);
 
-    res.json({ success: true, message: 'OTP sent to your email.' });
+    res.json({
+      success: true,
+      message: 'OTP sent to your email.',
+      ...(devFallback ? { devOtp: otpData.code } : {})
+    });
   } catch (error) {
     console.error('Register error:', error.message || error);
     res.status(500).json({
@@ -108,6 +121,7 @@ exports.sendOtp = async (req, res) => {
     const otpData = otpService.createOTPData(normalizedEmail, purpose || 'verification');
     req.session.otpData = otpData;
 
+    let devFallback = false;
     try {
       await emailService.sendOTPEmail(email, {
         userName: user ? user.fullName : '',
@@ -117,16 +131,27 @@ exports.sendOtp = async (req, res) => {
       });
     } catch (emailErr) {
       console.error('Send OTP email dispatch error:', emailErr.message);
-      if (process.env.NODE_ENV !== 'production' || process.env.ENABLE_DEV_OTP === 'true') {
+      const isDomainRestriction = emailErr.statusCode === 403 ||
+        (emailErr.message && (emailErr.message.includes('verify a domain') || emailErr.message.includes('testing emails')));
+
+      if (process.env.NODE_ENV !== 'production' || process.env.ENABLE_DEV_OTP === 'true' || isDomainRestriction) {
+        devFallback = true;
         console.log(`\n======================================================`);
         console.log(`[DEV OTP FALLBACK] OTP code for ${normalizedEmail} (${purpose || 'verification'}): ${otpData.code}`);
+        if (isDomainRestriction) {
+          console.log(`[REASON] Resend unverified domain restriction (test sender only delivers to account owner).`);
+        }
         console.log(`======================================================\n`);
       } else {
         throw emailErr;
       }
     }
 
-    res.json({ success: true, message: 'OTP sent to your email.' });
+    res.json({
+      success: true,
+      message: 'OTP sent to your email.',
+      ...(devFallback ? { devOtp: otpData.code } : {})
+    });
   } catch (error) {
     console.error('Send OTP error:', error.message || error);
     res.status(500).json({
